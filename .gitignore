@@ -1,3 +1,4 @@
 env
-input_data
-output_data
+input_files
+cm_pipeline
+*__pycache__
