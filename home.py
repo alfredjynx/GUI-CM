@@ -26,18 +26,18 @@ if algorithm == 'Leiden-CPM':
     st.session_state.param = {}
     resolution = st.sidebar.number_input(label= "resolution", value=0.01, min_value=0., max_value=1.0)
     iteration = st.sidebar.number_input(label= "iterations")
-    st.session_state.param["i"] = iteration
-    st.session_state.param["res"] = resolution
+    st.session_state.param["i"] = int(iteration)
+    st.session_state.param["res"] = float(resolution)
     clustering_algorithm = 'leiden'
 elif algorithm == 'Leiden-Mod':
     st.session_state.param = {}
     st.sidebar.number_input(label= "iterations")
     iteration = clustering_algorithm = 'leiden_mod'
-    st.session_state.param["i"] = iteration
+    st.session_state.param["i"] = int(iteration)
 elif algorithm == 'IKC':
     st.session_state.param = {}
     k = st.sidebar.number_input(label= "k-core value")
-    st.session_state.param["k"] = k
+    st.session_state.param["k"] = float(k)
     clustering_algorithm = 'ikc'
 
 if input == 'network':
@@ -55,7 +55,7 @@ else:
 
 
 if st.button("Run CM Pipeline"):
-    generate_json(clustering_algorithm, st.session_state.param)
+    # generate_json(clustering_algorithm, st.session_state.param)
 
     with st.spinner():
         os.system("""
