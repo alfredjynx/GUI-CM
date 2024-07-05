@@ -2,8 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 import requests
+import json
 
-from helper_functions import generate_json
+
 
 if 'cm' not in st.session_state:
     st.session_state.cm = False
@@ -25,8 +26,8 @@ algorithm = st.sidebar.selectbox(
 
 if algorithm == 'Leiden-CPM':
     st.session_state.param = {}
-    resolution = st.sidebar.number_input(label= "resolution", value=0.01, min_value=0., max_value=1.0)
-    iteration = st.sidebar.number_input(label= "iterations")
+    resolution = st.sidebar.number_input(label= "resolution", value= 0.001, format="%f")
+    iteration = st.sidebar.number_input(label= "iterations", value= 2)
     st.session_state.param["i"] = int(iteration)
     st.session_state.param["res"] = float(resolution)
     clustering_algorithm = 'leiden'
@@ -58,10 +59,11 @@ elif algorithm == 'IKC':
 if st.button("Run CM Pipeline"):
     
     data = {
-        "algorithm" : clustering_algorithm,
-        "param": st.session_state.param 
+        "algo_name" : clustering_algorithm,
+        "params": st.session_state.param 
     }
-    x = requests.post('http://127.0.0.1:8000/pipeline', data =data)
+    res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
+    st.write(res)
 
 
 
