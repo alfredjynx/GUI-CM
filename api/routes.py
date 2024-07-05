@@ -20,7 +20,6 @@ def get_tracking():
     return "Run Pipeline"
 
 
-
 @router.post("/pipeline", response_model=AlgoIn, status_code=status.HTTP_201_CREATED, tags=["items"])
 def run_pipeline(algoIn: AlgoIn): 
     return algoIn
