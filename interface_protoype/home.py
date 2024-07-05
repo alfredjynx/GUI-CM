@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import requests
 
 from helper_functions import generate_json
 
@@ -40,29 +41,30 @@ elif algorithm == 'IKC':
     st.session_state.param["k"] = float(k)
     clustering_algorithm = 'ikc'
 
-if input == 'network':
-    network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
-    if network:
-        pd.read_csv(network).to_csv("cm_pipeline/network.tsv", index= False)
-    clustering = None
-else:
-    network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
-    clustering = st.file_uploader(label="Input your clustering file here", type=['csv', 'tsv'])
-    if network and clustering:
-        pd.read_csv(network).to_csv("input_data/network.tsv", index= False)
-        pd.read_csv(clustering).to_csv("input_data/clustering.tsv", index= False)
+# if input == 'network':
+#     network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
+#     if network:
+#         pd.read_csv(network).to_csv("cm_pipeline/network.tsv", index= False)
+#     clustering = None
+# else:
+#     network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
+#     clustering = st.file_uploader(label="Input your clustering file here", type=['csv', 'tsv'])
+#     if network and clustering:
+#         pd.read_csv(network).to_csv("input_data/network.tsv", index= False)
+#         pd.read_csv(clustering).to_csv("input_data/clustering.tsv", index= False)
     
 
 
 if st.button("Run CM Pipeline"):
-    # generate_json(clustering_algorithm, st.session_state.param)
+    
+    data = {
+        "algorithm" : clustering_algorithm,
+        "param": st.session_state.param 
+    }
+    x = requests.post('http://127.0.0.1:8000/pipeline', data =data)
 
-    with st.spinner():
-        os.system("""
-                  cd cm_pipeline
-                  python3 -m main pipeline.json
-                  """)
 
-    st.session_state.cm = True
+
+
 
 
