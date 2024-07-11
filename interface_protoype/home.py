@@ -28,8 +28,8 @@ if algorithm == 'Leiden-CPM':
     st.session_state.param = {}
     resolution = st.sidebar.number_input(label= "resolution", value= 0.001, format="%f")
     iteration = st.sidebar.number_input(label= "iterations", value= 2)
-    st.session_state.param["i"] = int(iteration)
     st.session_state.param["res"] = float(resolution)
+    st.session_state.param["i"] = int(iteration)
     clustering_algorithm = 'leiden'
 elif algorithm == 'Leiden-Mod':
     st.session_state.param = {}
