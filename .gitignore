@@ -3,3 +3,5 @@ input_files
 cm_pipeline
 *__pycache__
 .vscode
+*/data
+*/output
