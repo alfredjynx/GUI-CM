@@ -1,6 +1,6 @@
 import json
 
-def generate_json(algorithm, raw_params):
+def generate_json(algorithm, raw_params, input_file):
 
     print(algorithm)
 
@@ -11,7 +11,7 @@ def generate_json(algorithm, raw_params):
     pipeline = {
         "title": "example",
         "name": "example",
-        "input_file": "network.tsv",
+        "input_file": input_file,
         "output_dir": "../api/samples/",
         "algorithm": algorithm,
         "params": formated_param,

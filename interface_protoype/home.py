@@ -1,9 +1,11 @@
+import shutil
 import streamlit as st
 import pandas as pd
 import os
 import requests
 import json
-
+from io import StringIO
+from datetime import datetime
 
 
 if 'cm' not in st.session_state:
@@ -14,10 +16,41 @@ if 'param' not in st.session_state:
 
 st.title("CM Interface")
 
-input = st.sidebar.selectbox(
-    'What is your input file?',
-    (['network'])
+file_path = None
+
+file_select = st.sidebar.selectbox(
+    'File Read Options',
+    ('Relative Path', 'Upload','Default')
 )
+
+if file_select == "Relative Path":
+    file_path = st.sidebar.text_input(
+        "Enter the Relative Path Here! 👇"
+    )
+
+    if file_path:
+        st.write("You entered: ", file_path)
+
+elif file_select == 'Upload':
+
+    uploaded_file = st.sidebar.file_uploader(
+        'What is your input file?'
+    )
+
+    if uploaded_file is not None:
+
+        stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+
+        date = "-".join(str(datetime.now()).split('.')[0].split(' '))
+
+        print(date)
+
+        with open(f'../api/data/file_{date}.tsv', 'w') as fd:
+            stringio.seek(0)
+            shutil.copyfileobj(stringio, fd)
+
+        file_path = f'./data/file_{date}.tsv'
+
 
 algorithm = st.sidebar.selectbox(
     'What is your clustering algorithm?',
@@ -60,7 +93,8 @@ if st.button("Run CM Pipeline"):
     
     data = {
         "algo_name" : clustering_algorithm,
-        "params": st.session_state.param 
+        "params": st.session_state.param,
+        "file_path": file_path
     }
     res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
     st.write(res)
