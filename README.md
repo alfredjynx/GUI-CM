@@ -14,6 +14,47 @@
 
 ### Step-by-Step Setup
 
+### Clone the Repository
+```bash
+git clone https://github.com/alessitomas/ISE-workflow
+```
+```bash
+cd ISE-workflow
+```
+## Setup Instructions
+
+### Initialize and Update Submodule
+
+The repository includes a submodule cm_pipeline that needs initialization.
+```bash
+git submodule init
+```
+```bash
+git submodule update
+```
+
+### Create and Activate a Virtual Environment
+Ensure you have Python 3.10 installed before proceeding
+```bash
+python3.10 -m venv env
+```
+```bash
+source env/bin/activate 
+```
+
+### Install cm_pipeline Requirements
+Make sure to be in the cm_pipeline directory
+```bash
+cd cm_pipeline
+```
+Install the requiremnts
+```bash
+pip install -r requirements.txt
+```
+
+
+
+
 1. **Create a Virtual Environment and Install Requirements for CM Pipeline**
 
     Navigate to the `cm_pipeline` directory:
