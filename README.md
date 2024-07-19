@@ -12,20 +12,16 @@
   - `data.table`
   - `feather`
 
-### Step-by-Step Setup
 
-### Clone the Repository
-```bash
-git clone https://github.com/alessitomas/ISE-workflow
-```
-```bash
-cd ISE-workflow
-```
 ## Setup Instructions
 
 ### Initialize and Update Submodule
 
 The repository includes a submodule cm_pipeline that needs initialization.
+Ensure your terminal is in the cm_pipeline directory
+```bash
+cd cm_pipeline
+```
 ```bash
 git submodule init
 ```
@@ -33,8 +29,11 @@ git submodule init
 git submodule update
 ```
 
-### Create and Activate a Virtual Environment
-Ensure you have Python 3.10 installed before proceeding
+### Create and Activate a Virtual Environment in the main Directory
+Ensure that your terminal is in dashboard-cm directory
+```bash
+cd ..
+```
 ```bash
 python3.10 -m venv env
 ```
