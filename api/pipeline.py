@@ -9,7 +9,7 @@ from scripts.generate_json import generate_json
 class AlgoIn(BaseModel):
     algo_name: str 
     params: dict
-    file_path: Optional[str] = "network.tsv"
+    file_path: str
 
     def callJSON(self):
         if len(self.file_path) == 0:

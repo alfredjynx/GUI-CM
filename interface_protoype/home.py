@@ -16,7 +16,7 @@ if 'param' not in st.session_state:
 
 st.title("CM Interface")
 
-file_path = None
+file_path = ""
 
 file_select = st.sidebar.selectbox(
     'File Read Options',
