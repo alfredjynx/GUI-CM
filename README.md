@@ -15,68 +15,59 @@
 
 ## Setup Instructions
 
-### Initialize and Update Submodule
+  1. **Create and Activate a Virtual Environment in the main Directory**
+  
+      Ensure that your terminal is in dashboard-cm directory
+    
+      Create a virtual enviroment:
+      ```bash
+      python -m venv env 
+      ```
+      OR
+      ```bash
+      python3 -m venv env 
+      ```
+      Activate the enviroment:
+      ```bash
+      source env/bin/activate 
+      ```
 
-The repository includes a submodule cm_pipeline that needs initialization.
-Ensure your terminal is in the cm_pipeline directory
-```bash
-cd cm_pipeline
-```
-```bash
-git submodule init
-```
-```bash
-git submodule update
-```
+  2. **Initialize and Update Submodule**
+    
+      The repository includes a submodule cm_pipeline that needs initialization.
+      
+      Ensure your terminal is in the cm_pipeline directory:
+      ```bash
+      cd cm_pipeline
+      ```
+      Initialize the submodule:
+      ```bash
+      git submodule init
+      ```
+      Update the submodule:
+      ```bash
+      git submodule update
+      ```
 
-### Create and Activate a Virtual Environment in the main Directory
-Ensure that your terminal is in dashboard-cm directory
-```bash
-cd ..
-```
-```bash
-python3.10 -m venv env
-```
-```bash
-source env/bin/activate 
-```
-
-### Install cm_pipeline Requirements
-Make sure to be in the cm_pipeline directory
-```bash
-cd cm_pipeline
-```
-Install the requiremnts
-```bash
-pip install -r requirements.txt
-```
+  3. **Install cm_pipeline Requirements**
+   
+      Navigate to the `cm_pipeline` directory:
+    
+      Install the requiremnts
+      ```bash
+      pip install -r requirements.txt
+      ```
 
 
+  4. **Install API Requirements**
+  
+      Navigate to the `api` directory:
+      
+      Install the requiremnts
+      ```bash
+      pip install -r requirements.txt
+      ```
 
-
-1. **Create a Virtual Environment and Install Requirements for CM Pipeline**
-
-    Navigate to the `cm_pipeline` directory:
-    ```bash
-    cd cm_pipeline
-    ```
-
-    Install the requirements:
-    ```bash
-    pip install -r requirements.txt && pip install .
-    ```
-
-2. **Install Backend API Requirements**
-
-    Navigate to the `api` directory:
-    ```bash
-    cd api
-    ```
-
-    Install the requirements:
-    ```bash
-    pip install -r requirements.txt
-    ```
 
 3. **Run the Backend Server Locally**
 
