@@ -1,6 +1,6 @@
 # CM API
 
-## How to Set Up and Run the Backend API
+## How to Set Up, Run the Backend API and Run the Interface
 
 ### Requirements
 
@@ -77,3 +77,12 @@
     ```
 
 Now your environment is set up and the backend server should be running locally.
+
+3. **Run the Interface Server Locally**
+   Navigate to the `interface_protoype` directory:
+
+     ```bash
+    streamlit run home.py
+    ```
+
+Now the interface server should be running locally.
