@@ -79,7 +79,13 @@
 Now your environment is set up and the backend server should be running locally.
 
 3. **Run the Interface Server Locally**
-   Navigate to the `interface_protoype` directory:
+
+   Navigate to the `interface_protoype` directory
+      
+    Install the requiremnts
+    ```bash
+    pip install -r requirements.txt
+    ```
 
      ```bash
     streamlit run home.py
