@@ -66,9 +66,11 @@ if algorithm == 'Leiden-CPM':
     clustering_algorithm = 'leiden'
 elif algorithm == 'Leiden-Mod':
     st.session_state.param = {}
-    st.sidebar.number_input(label= "iterations")
-    iteration = clustering_algorithm = 'leiden_mod'
-    st.session_state.param["i"] = int(iteration)
+    iteration = st.sidebar.number_input(label= "iterations", min_value=1, max_value=100, step=1, value=1)
+    clustering_algorithm = 'leiden_mod'
+    if iteration is not None:
+        print(iteration)
+        st.session_state.param["i"] = int(iteration)
 elif algorithm == 'IKC':
     st.session_state.param = {}
     k = st.sidebar.number_input(label= "k-core value")

@@ -29,8 +29,6 @@ class AlgoIn(BaseModel):
 
         if self.algo_name == "leiden":
 
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n")
-
             cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S5_example_leiden.connectivity_modifier_res" + str(self.params["res"]) + "_i" + str(self.params["i"])+".tsv"
 
             output_dir_path = input_dir + "/post"
@@ -38,6 +36,18 @@ class AlgoIn(BaseModel):
             os.makedirs(output_dir_path, exist_ok=True)
 
             output_file_path = output_dir_path + "/output_" + self.algo_name + "_res_" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "_cc.tsv"
+
+
+
+        elif  self.algo_name == "leiden_mod":
+
+            cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S5_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
+
+            output_dir_path = input_dir + "/post"
+
+            os.makedirs(output_dir_path, exist_ok=True)
+
+            output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
 
 
         return apply(treatment=self.post_treatment,
