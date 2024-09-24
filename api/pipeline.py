@@ -1,19 +1,47 @@
 from typing import Optional
 from pydantic import BaseModel
+import os
 
 # from typing import List, Dict
 
 from scripts.generate_json import generate_json
+from scripts.run_post_treatment import apply
 
 
 class AlgoIn(BaseModel):
     algo_name: str 
     params: dict
     file_path: str
+    post_treatment: str 
 
     def callJSON(self):
         if len(self.file_path) == 0:
             self.file_path = "network.tsv"
 
         return generate_json(self.algo_name, self.params, self.file_path)
-    
+
+    def postTreatment(self, input_dir):
+
+        if self.post_treatment == "":
+            return
+
+
+
+        if self.algo_name == "leiden":
+
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n")
+
+            cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S5_example_leiden.connectivity_modifier_res" + str(self.params["res"]) + "_i" + str(self.params["i"])+".tsv"
+
+            output_dir_path = input_dir + "/post"
+
+            os.makedirs(output_dir_path, exist_ok=True)
+
+            output_file_path = output_dir_path + "/output_" + self.algo_name + "_res_" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "_cc.tsv"
+
+
+        return apply(treatment=self.post_treatment,
+              edge_list_path= "../api/"+self.file_path,
+              cluster_path=cluster_path,
+              output_file_path=output_file_path)
+        

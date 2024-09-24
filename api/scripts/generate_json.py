@@ -60,4 +60,4 @@ def generate_json(algorithm, raw_params, input_file):
     with open("../api/pipeline_test.json", "w") as f:
         json.dump(pipeline, f)
 
-    return "pipeline_test"
+    return "pipeline_test", pipeline["output_dir"] + pipeline["name"]

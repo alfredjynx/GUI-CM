@@ -75,18 +75,19 @@ elif algorithm == 'IKC':
     st.session_state.param["k"] = float(k)
     clustering_algorithm = 'ikc'
 
-# if input == 'network':
-#     network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
-#     if network:
-#         pd.read_csv(network).to_csv("cm_pipeline/network.tsv", index= False)
-#     clustering = None
-# else:
-#     network = st.file_uploader(label="Input your network file here", type=['csv', 'tsv'])
-#     clustering = st.file_uploader(label="Input your clustering file here", type=['csv', 'tsv'])
-#     if network and clustering:
-#         pd.read_csv(network).to_csv("input_data/network.tsv", index= False)
-#         pd.read_csv(clustering).to_csv("input_data/clustering.tsv", index= False)
-    
+post_treatment = st.sidebar.selectbox(
+    'What is your clustering Post Treatment?',
+    ('None', 'CM-CC', 'CM-WCC')
+)
+
+if post_treatment == "CM-CC":
+    st.session_state.post_treatment = "cc"
+elif post_treatment == "CM-WCC":
+    st.session_state.post_treatment = "wcc"
+else:
+    st.session_state.post_treatment = ""
+
+
 
 
 if st.button("Run CM Pipeline"):
@@ -94,7 +95,8 @@ if st.button("Run CM Pipeline"):
     data = {
         "algo_name" : clustering_algorithm,
         "params": st.session_state.param,
-        "file_path": file_path
+        "file_path": file_path,
+        "post_treatment": st.session_state.post_treatment
     }
     res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
     st.write(res)
