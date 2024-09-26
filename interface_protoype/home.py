@@ -54,7 +54,7 @@ elif file_select == 'Upload':
 
 algorithm = st.sidebar.selectbox(
     'What is your clustering algorithm?',
-    ('Leiden-CPM', 'Leiden-Mod', 'IKC')
+    ('Leiden-CPM', 'Leiden-Mod', 'infomap','sbm')
 )
 
 if algorithm == 'Leiden-CPM':
@@ -71,11 +71,24 @@ elif algorithm == 'Leiden-Mod':
     if iteration is not None:
         print(iteration)
         st.session_state.param["i"] = int(iteration)
-elif algorithm == 'IKC':
+elif algorithm == 'infomap':
     st.session_state.param = {}
-    k = st.sidebar.number_input(label= "k-core value")
-    st.session_state.param["k"] = float(k)
-    clustering_algorithm = 'ikc'
+    clustering_algorithm = 'infomap'
+elif algorithm == "sbm":
+    st.session_state.param = {}
+    
+    block_state = st.sidebar.selectbox(
+        "Select block state:",
+        options=["non_nested_sbm", "planted_partition_model"]
+    )
+
+    degree_corrected = st.sidebar.checkbox(
+        "Degree corrected", value=False
+    )
+    
+    st.session_state.param["block_state"] = block_state 
+    st.session_state.param["degree_corrected"] = degree_corrected 
+    clustering_algorithm = 'sbm'
 
 post_treatment = st.sidebar.selectbox(
     'What is your clustering Post Treatment?',
