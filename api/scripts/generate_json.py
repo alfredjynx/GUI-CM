@@ -1,12 +1,12 @@
 import json
 
-def generate_json(algorithm, raw_params, input_file):
+def generate_json(algorithm, raw_params, input_file, include_cm):
 
-    print(algorithm)
+    
 
     formated_param = [raw_params]
 
-    print(formated_param)
+    
     
     pipeline = {
         "title": "example",
@@ -38,14 +38,9 @@ def generate_json(algorithm, raw_params, input_file):
                     "../cm_pipeline/scripts/make_cm_ready.R"
                 ]
             },
-            # 5
-            # 6
-            {
-                "name": "filtering",
-                "scripts": [
-                    "../cm_pipeline/scripts/post_cm_filter.R"
-                ]
-            },
+            # 5 Possible CM treatment
+            # 6 Possible pos CM filter
+
             # 7
             {
                 "name": "stats",
@@ -57,21 +52,29 @@ def generate_json(algorithm, raw_params, input_file):
         ]
     }
 
+    if include_cm:
+        connectivity_modifier = {
+        "name": "connectivity_modifier",
+        "memprof": False,
+        "threshold": "1log10",
+        "nprocs": 4,
+        "quiet": True
+        }
+        
+        filter_pos_cm =   {
+                "name": "filtering",
+                "scripts": [
+                    "../cm_pipeline/scripts/post_cm_filter.R"
+                ]
+                }
 
-    connectivity_modifier = {
-    "name": "connectivity_modifier",
-    "memprof": False,
-    "threshold": "1log10",
-    "nprocs": 4,
-    "quiet": True
-    }
-    
-    if algorithm == "infomap":
-        connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/infomap_wrapper.py"
-    elif algorithm == "sbm":
-        connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/sbm_wrapper.py"
+        if algorithm == "infomap":
+            connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/infomap_wrapper.py"
+        elif algorithm == "sbm":
+            connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/sbm_wrapper.py"
 
-    pipeline["stages"].insert(4,connectivity_modifier)
+        pipeline["stages"].insert(4,connectivity_modifier)
+        pipeline["stages"].insert(5,filter_pos_cm)
 
 
     with open("../api/pipeline_test.json", "w") as f:

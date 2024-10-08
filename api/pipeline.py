@@ -17,12 +17,17 @@ class AlgoIn(BaseModel):
     def callJSON(self):
         if len(self.file_path) == 0:
             self.file_path = "network.tsv"
+        
+        if "cm" in self.post_treatment:
+            include_cm = True
+        else:
+            include_cm = False
 
-        return generate_json(self.algo_name, self.params, self.file_path)
+        return generate_json(self.algo_name, self.params, self.file_path, include_cm)
 
     def postTreatment(self, input_dir):
 
-        if self.post_treatment == "":
+        if self.post_treatment == "" or self.post_treatment == "cm":
             return
 
 
@@ -49,6 +54,9 @@ class AlgoIn(BaseModel):
 
             output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
 
+        cm_prefix = "cm-"
+        if cm_prefix in self.post_treatment:
+            self.post_treatment = self.post_treatment[len(cm_prefix):]
 
         return apply(treatment=self.post_treatment,
               edge_list_path= "../api/"+self.file_path,

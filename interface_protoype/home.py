@@ -92,13 +92,15 @@ elif algorithm == "sbm":
 
 post_treatment = st.sidebar.selectbox(
     'What is your clustering Post Treatment?',
-    ('None', 'CM-CC', 'CM-WCC')
+    ('None', 'CM', 'CM-CC', 'CM-WCC')
 )
 
 if post_treatment == "CM-CC":
-    st.session_state.post_treatment = "cc"
+    st.session_state.post_treatment = "cm-cc"
 elif post_treatment == "CM-WCC":
-    st.session_state.post_treatment = "wcc"
+    st.session_state.post_treatment = "cm-wcc"
+elif post_treatment == "CM":
+    st.session_state.post_treatment = "cm"
 else:
     st.session_state.post_treatment = ""
 
@@ -114,7 +116,13 @@ if st.button("Run CM Pipeline"):
         "post_treatment": st.session_state.post_treatment
     }
     res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
-    st.write(res)
+
+    if res.status_code == 201:
+        st.success("Pipeline executed successfully! The resource has been created.")
+    else:
+        
+        st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
+        st.write(res.text)  
 
 
 
