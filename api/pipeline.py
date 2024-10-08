@@ -40,8 +40,12 @@ class AlgoIn(BaseModel):
 
             os.makedirs(output_dir_path, exist_ok=True)
 
-            output_file_path = output_dir_path + "/output_" + self.algo_name + "_res_" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "_cc.tsv"
-
+            if "wcc" in self.post_treatment: 
+                
+                output_file_path = output_dir_path + "/output_" + self.algo_name + "_res_" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "_wcc.tsv"
+            else:
+                
+                output_file_path = output_dir_path + "/output_" + self.algo_name + "_res_" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "_cc.tsv"
 
 
         elif  self.algo_name == "leiden_mod":
@@ -51,9 +55,27 @@ class AlgoIn(BaseModel):
             output_dir_path = input_dir + "/post"
 
             os.makedirs(output_dir_path, exist_ok=True)
+            if "wcc" in self.post_treatment: 
+                output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_wcc.tsv"
+            else:
+                output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
 
-            output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
+        
+        # elif  self.algo_name == "infomap":
 
+        #     cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S5_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
+
+        #     output_dir_path = input_dir + "/post"
+
+        #     os.makedirs(output_dir_path, exist_ok=True)
+        #     if "wcc" in self.post_treatment: 
+        #         output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_wcc.tsv"
+        #     else:
+        #         output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
+
+        
+        
+        
         cm_prefix = "cm-"
         if cm_prefix in self.post_treatment:
             self.post_treatment = self.post_treatment[len(cm_prefix):]

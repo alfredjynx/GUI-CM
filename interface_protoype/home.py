@@ -85,7 +85,6 @@ elif algorithm == "sbm":
     degree_corrected = st.sidebar.checkbox(
         "Degree corrected", value=False
     )
-    
     st.session_state.param["block_state"] = block_state 
     st.session_state.param["degree_corrected"] = degree_corrected 
     clustering_algorithm = 'sbm'
