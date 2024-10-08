@@ -61,17 +61,17 @@ class AlgoIn(BaseModel):
                 output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
 
         
-        # elif  self.algo_name == "infomap":
+        elif  self.algo_name == "infomap":
+            
+            cluster_path = input_dir + "/infomap/S2_example_infomap_clustering.tsv"
 
-        #     cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S5_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
+            output_dir_path = input_dir + "/post"
 
-        #     output_dir_path = input_dir + "/post"
-
-        #     os.makedirs(output_dir_path, exist_ok=True)
-        #     if "wcc" in self.post_treatment: 
-        #         output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_wcc.tsv"
-        #     else:
-        #         output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_cc.tsv"
+            os.makedirs(output_dir_path, exist_ok=True)
+            if "wcc" in self.post_treatment: 
+                output_file_path = output_dir_path + "/output_infomap_clustering_wcc.tsv"
+            else:
+                output_file_path = output_dir_path + "/output_infomap_clustering_cc.tsv"
 
         
         
