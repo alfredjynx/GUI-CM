@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 import os
+import json
 
 # from typing import List, Dict
 
@@ -15,17 +16,18 @@ class AlgoIn(BaseModel):
     post_treatment: str 
 
     def generate_cargs_json(self):
-    block_state = self.params["block_state"]
-    degree_corrected = self.params["degree_corrected"]
-    dictionaire = {
-        "block_state": block_state, 
-        "degree_corrected": degree_corrected
-    }
-    
-    with open("../api/cargs.json", "w") as f:
-        json.dump(dictionaire, f)
-    
-    return 
+        block_state = self.params["block_state"]
+        degree_corrected = self.params["degree_corrected"]
+        dictionaire = {
+            "block_state": block_state, 
+            "degree_corrected": degree_corrected
+        }
+        
+        with open("../api/cargs.json", "w") as f:
+            json.dump(dictionaire, f)
+        
+        return 
+
 
     def callJSON(self):
         if len(self.file_path) == 0:
