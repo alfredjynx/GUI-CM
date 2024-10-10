@@ -14,6 +14,19 @@ class AlgoIn(BaseModel):
     file_path: str
     post_treatment: str 
 
+    def generate_cargs_json(self):
+    block_state = self.params["block_state"]
+    degree_corrected = self.params["degree_corrected"]
+    dictionaire = {
+        "block_state": block_state, 
+        "degree_corrected": degree_corrected
+    }
+    
+    with open("../api/cargs.json", "w") as f:
+        json.dump(dictionaire, f)
+    
+    return 
+
     def callJSON(self):
         if len(self.file_path) == 0:
             self.file_path = "network.tsv"
