@@ -49,7 +49,16 @@
       git submodule update
       ```
 
-  3. **Install cm_pipeline Requirements**
+  3. **Install Requirements**
+  
+      Navigate to the base directory:
+      
+      Install the requiremnts
+      ```bash
+      pip install -r requirements.txt
+      ```
+
+  4. **Install cm_pipeline Requirements**
    
       Navigate to the `cm_pipeline` directory:
     
@@ -59,17 +68,7 @@
       ```
 
 
-  4. **Install API Requirements**
-  
-      Navigate to the `api` directory:
-      
-      Install the requiremnts
-      ```bash
-      pip install -r requirements.txt
-      ```
-
-
-3. **Run the Backend Server Locally**
+5. **Run the Backend Server Locally**
 
     Within the `api` directory, start the backend server:
     ```bash
@@ -78,7 +77,7 @@
 
 Now your environment is set up and the backend server should be running locally.
 
-3. **Run the Interface Server Locally**
+6. **Run the Interface Server Locally**
 
    Navigate to the `interface_protoype` directory
       
