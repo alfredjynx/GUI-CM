@@ -39,7 +39,7 @@ class AlgoIn(BaseModel):
         else:
             include_cm = False
 
-        return generate_json(self.algo_name, self.params, self.file_path, include_cm)
+        return generate_json(self.algo_name, self.params, self.file_path, include_cm, self.filter_select)
 
     def postTreatment(self, input_dir):
 
