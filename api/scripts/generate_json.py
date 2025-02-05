@@ -1,6 +1,6 @@
 import json
 
-def generate_json(algorithm, raw_params, input_file, include_cm):
+def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
 
     
 
@@ -30,14 +30,7 @@ def generate_json(algorithm, raw_params, input_file, include_cm):
                 "name": "stats",
                 "parallel_limit": 2
             }, 
-            # 4
-            {
-                "name": "filtering",
-                "scripts": [
-                    "../cm_pipeline/scripts/subset_graph_nonetworkit_treestar.R",
-                    "../cm_pipeline/scripts/make_cm_ready.R"
-                ]
-            },
+            # 4 Possible Filtering
             # 5 Possible CM treatment
             # 6 Possible pos CM filter
 
@@ -51,6 +44,20 @@ def generate_json(algorithm, raw_params, input_file, include_cm):
 
         ]
     }
+    
+    
+    if filtering:
+        
+        filtering_dict =    {
+        "name": "filtering",
+        "scripts": [
+            "../cm_pipeline/scripts/subset_graph_nonetworkit_treestar.R",
+            "../cm_pipeline/scripts/make_cm_ready.R"
+        ]
+        }
+        
+        pipeline["stages"].insert(3,filtering_dict)
+
 
     if include_cm:
         connectivity_modifier = {

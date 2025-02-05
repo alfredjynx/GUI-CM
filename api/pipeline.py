@@ -14,6 +14,7 @@ class AlgoIn(BaseModel):
     params: dict
     file_path: str
     post_treatment: str 
+    filter_select: bool
 
     def generate_cargs_json(self):
         block_state = self.params["block_state"]
