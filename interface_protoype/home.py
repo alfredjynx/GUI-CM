@@ -1,6 +1,5 @@
 import shutil
 import streamlit as st
-import pandas as pd
 import os
 import requests
 import json
@@ -44,6 +43,8 @@ elif file_select == 'Upload':
         date = "-".join(str(datetime.now()).split('.')[0].split(' '))
 
         print(date)
+
+        os.makedirs("../api/data/", exist_ok=True)
 
         with open(f'../api/data/file_{date}.tsv', 'w') as fd:
             stringio.seek(0)
