@@ -7,6 +7,7 @@ import json
 
 from scripts.generate_json import generate_json
 from scripts.run_post_treatment import apply
+from scripts.sbm_data import get_dir_name_sbm, get_file_sbm
 
 
 class AlgoIn(BaseModel):
@@ -47,10 +48,13 @@ class AlgoIn(BaseModel):
             return
 
 
-
         if self.algo_name == "leiden":
-
-            cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S5_example_leiden.connectivity_modifier_res" + str(self.params["res"]) + "_i" + str(self.params["i"])+".tsv"
+            if self.filter_select:
+                # S6_example_leiden.res0.001_i2_post_cm_filter.R.tsv
+                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S6_example_leiden.res" + str(self.params["res"]) + "_i" + str(self.params["i"])+"_post_cm_filter.R.tsv"
+            else:
+                # S4_example_leiden.connectivity_modifier_res0.001_i2.tsv
+                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S4_example_leiden.connectivity_modifier_res" + str(self.params["res"]) + "_i" + str(self.params["i"])+".tsv"
 
             output_dir_path = input_dir + "/post"
 
@@ -66,11 +70,17 @@ class AlgoIn(BaseModel):
 
         elif  self.algo_name == "leiden_mod":
 
-            cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S5_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
+            if self.filter_select:
+                # S6_example_leiden_mod.i1_post_cm_filter.R.tsv
+                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S6_example_leiden_mod.i" + str(self.params["i"])+"_post_cm_filter.R.tsv"
+            else:
+                # S4_example_leiden_mod.connectivity_modifier_i1.tsv
+                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S4_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
 
             output_dir_path = input_dir + "/post"
 
             os.makedirs(output_dir_path, exist_ok=True)
+
             if "wcc" in self.post_treatment: 
                 output_file_path = output_dir_path + "/output_" + self.algo_name + "_i" + str(self.params["i"]) + "_wcc.tsv"
             else:
@@ -84,13 +94,34 @@ class AlgoIn(BaseModel):
             output_dir_path = input_dir + "/post"
 
             os.makedirs(output_dir_path, exist_ok=True)
+
             if "wcc" in self.post_treatment: 
                 output_file_path = output_dir_path + "/output_infomap_clustering_wcc.tsv"
             else:
                 output_file_path = output_dir_path + "/output_infomap_clustering_cc.tsv"
 
         
-        
+        elif self.algo_name == "sbm":
+
+            sbm_dir = get_dir_name_sbm(input_dir)
+
+            if self.filter_select:
+                cluster_path = input_dir + "/" + sbm_dir + "/" + get_file_sbm(input_dir + "/" + sbm_dir )
+            else:
+                cluster_path = input_dir + "/" + sbm_dir + "/S2_example_sbm_clustering.tsv"
+
+            output_dir_path = input_dir + "/post"
+
+            os.makedirs(output_dir_path, exist_ok=True)
+
+            if "wcc" in self.post_treatment: 
+                
+                output_file_path = output_dir_path + "/output_sbm_clustering_wcc.tsv"
+            else:
+                
+                output_file_path = output_dir_path + "/output_sbm_clustering_cc.tsv"
+
+
         
         cm_prefix = "cm-"
         if cm_prefix in self.post_treatment:
