@@ -5,6 +5,7 @@ import requests
 import json
 from io import StringIO
 from datetime import datetime
+import pandas as pd
 
 
 if 'cm' not in st.session_state:
@@ -124,6 +125,22 @@ if st.button("Run CM Pipeline"):
 
     if res.status_code == 201:
         st.success("Pipeline executed successfully! The resource has been created.")
+
+        df = pd.read_csv(res.json()["path"])
+
+        def convert_df(df):
+            # IMPORTANT: Cache the conversion to prevent computation on every rerun
+            return df.to_csv().encode("utf-8")
+
+        csv = convert_df(df)
+
+        st.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name=clustering_algorithm+".csv",
+            mime="text/csv",
+        )
+        
     else:
         
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")

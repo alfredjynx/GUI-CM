@@ -1,5 +1,5 @@
 import os
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, status
 
 from pipeline import AlgoIn
 from datetime import datetime
@@ -7,7 +7,7 @@ from datetime import datetime
 router = APIRouter()
 
 
-@router.post("/pipeline", response_model=str, status_code=status.HTTP_201_CREATED, tags=["items"])
+@router.post("/pipeline", response_model=dict, status_code=status.HTTP_201_CREATED, tags=["items"])
 def run_pipeline(algoIn: AlgoIn): 
 
     json_path, input_dir =  algoIn.callJSON()
@@ -23,5 +23,5 @@ def run_pipeline(algoIn: AlgoIn):
 
     algoIn.postTreatment(input_dir)
 
-    return "Success"
+    return {"path":algoIn.get_type_post(input_dir=input_dir)}
 

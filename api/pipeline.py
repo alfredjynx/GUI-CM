@@ -125,10 +125,31 @@ class AlgoIn(BaseModel):
         
         cm_prefix = "cm-"
         if cm_prefix in self.post_treatment:
-            self.post_treatment = self.post_treatment[len(cm_prefix):]
+            post_treatment = self.post_treatment[len(cm_prefix):]
+        else:
+            post_treatment = self.post_treatment
 
-        return apply(treatment=self.post_treatment,
+        return apply(treatment=post_treatment,
               edge_list_path= "../api/"+self.file_path,
               cluster_path=cluster_path,
               output_file_path=output_file_path)
+    
+    def get_type_post(self, input_dir):
+
+        if self.post_treatment == "cm" or self.post_treatment == "":
+            out = "make_cm_ready"
+        elif not self.filter_select:
+            out = "connectivity_modifier"
+        else:
+            out = "post_cm_filter"
+
+        dirs = os.listdir(input_dir)
+
+        dir = [d for d in dirs if "." not in d and d != "post" and d!= "analysis"][0]
+
+        for f in os.listdir(os.path.join(input_dir,dir)):
+            if out in f and f.endswith(".tsv"):
+                break
+        
+        return os.path.join(os.path.join(input_dir, dir), f)
         
