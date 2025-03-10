@@ -143,9 +143,14 @@ class AlgoIn(BaseModel):
         else:
             out = "post_cm_filter"
 
+        if "leiden" in self.algo_name:
+            algo = "leiden"
+        else:
+            algo = self.algo_name
+
         dirs = os.listdir(input_dir)
 
-        dir = [d for d in dirs if "." not in d and d != "post" and d!= "analysis"][0]
+        dir = [d for d in dirs if algo in d and not d.startswith("S1")][0]
 
         for f in os.listdir(os.path.join(input_dir,dir)):
             if out in f and f.endswith(".tsv"):
