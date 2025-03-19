@@ -19,7 +19,7 @@ st.title("CM Interface")
 file_path = ""
 
 file_select = st.sidebar.selectbox(
-    'File Read Options',
+    'File Options',
     ('Relative Path', 'Upload','Default')
 )
 
@@ -34,7 +34,7 @@ if file_select == "Relative Path":
 elif file_select == 'Upload':
 
     uploaded_file = st.sidebar.file_uploader(
-        'What is your input file?'
+        'Input File'
     )
 
     if uploaded_file is not None:
@@ -55,44 +55,46 @@ elif file_select == 'Upload':
 
 
 algorithm = st.sidebar.selectbox(
-    'What is your clustering algorithm?',
-    ('Leiden-CPM', 'Leiden-Mod', 'infomap','sbm')
+    'Algorithm',
+    ('Leiden-CPM', 'Leiden-Mod', 'Infomap','Stochastic Block Model (SBM)')
 )
 
 if algorithm == 'Leiden-CPM':
     st.session_state.param = {}
-    resolution = st.sidebar.number_input(label= "resolution", value= 0.001, format="%f")
-    iteration = st.sidebar.number_input(label= "iterations", value= 2)
+    resolution = st.sidebar.number_input(label= "Resolution", value= 0.001, format="%f")
+    iteration = st.sidebar.number_input(label= "Iterations", value= 2)
     st.session_state.param["res"] = float(resolution)
     st.session_state.param["i"] = int(iteration)
     clustering_algorithm = 'leiden'
 elif algorithm == 'Leiden-Mod':
     st.session_state.param = {}
-    iteration = st.sidebar.number_input(label= "iterations", min_value=1, max_value=100, step=1, value=1)
+    iteration = st.sidebar.number_input(label= "Iterations", min_value=1, max_value=100, step=1, value=1)
     clustering_algorithm = 'leiden_mod'
     if iteration is not None:
         print(iteration)
         st.session_state.param["i"] = int(iteration)
-elif algorithm == 'infomap':
+elif algorithm == 'Infomap':
     st.session_state.param = {}
     clustering_algorithm = 'infomap'
-elif algorithm == "sbm":
+elif algorithm == "Stochastic Block Model (SBM)":
     st.session_state.param = {}
     
     block_state = st.sidebar.selectbox(
         "Select block state:",
-        options=["non_nested_sbm", "planted_partition_model"]
+        options=["Non Nested", "Planted Partition Model"]
     )
+    
+    block_state_dict = {"Non Nested":"non_nested_sbm", "Planted Partition Model": "planted_partition_model"}
 
     degree_corrected = st.sidebar.checkbox(
         "Degree corrected", value=False
     )
-    st.session_state.param["block_state"] = block_state 
+    st.session_state.param["block_state"] = block_state_dict[block_state]
     st.session_state.param["degree_corrected"] = degree_corrected 
     clustering_algorithm = 'sbm'
 
 post_treatment = st.sidebar.selectbox(
-    'What is your clustering Post Treatment?',
+    'Post Clustering Treatment',
     ('None', 'CM', 'CM-CC', 'CM-WCC')
 )
 
@@ -107,7 +109,7 @@ else:
 
 
 filter_select = st.sidebar.selectbox(
-    'Filter?',
+    'Filter',
     ('ON', 'OFF')
 )
 
