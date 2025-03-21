@@ -128,11 +128,11 @@ if st.button("Run CM Pipeline"):
     if res.status_code == 201:
         st.success("Pipeline executed successfully! The resource has been created.")
 
-        df = pd.read_csv(res.json()["path"])
+        df = pd.read_csv(res.json()["path"], sep="\t", names=["NodeID", "ClusterID"], header=None)
 
         def convert_df(df):
             # IMPORTANT: Cache the conversion to prevent computation on every rerun
-            return df.to_csv().encode("utf-8")
+            return df.to_csv(index=False).encode("utf-8")
 
         csv = convert_df(df)
 
