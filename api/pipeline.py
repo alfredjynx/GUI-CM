@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 import os
 import json
+import re
 
 # from typing import List, Dict
 
@@ -151,10 +152,20 @@ class AlgoIn(BaseModel):
         dirs = os.listdir(input_dir)
 
         dir = [d for d in dirs if algo in d and not d.startswith("S1")][0]
+        sorted_files = sorted(list(os.listdir(os.path.join(input_dir,dir))), key=self.extract_step_number,  reverse=True)
 
-        for f in os.listdir(os.path.join(input_dir,dir)):
+        for f in sorted_files:
             if out in f and f.endswith(".tsv") and "stats" not in f:
                 break
         
-        return os.path.join(os.path.join(input_dir, dir), f)
+        for f_stats in sorted_files:
+            if "stats" in f_stats:
+                break
         
+
+        
+        return os.path.join(os.path.join(input_dir, dir), f), os.path.join(os.path.join(input_dir, dir), f_stats)
+        
+    def extract_step_number(self, name):
+        match = re.match(r"S(\d+)_", name)
+        return int(match.group(1)) if match else float('inf')  # Put unmatched at the end

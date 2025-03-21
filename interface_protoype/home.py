@@ -113,8 +113,16 @@ filter_select = st.sidebar.selectbox(
     ('ON', 'OFF')
 )
 
+if "pipeline_complete" not in st.session_state:
+    st.session_state.pipeline_complete = False
+if "df" not in st.session_state:
+    st.session_state.df = None
+if "df_stats" not in st.session_state:
+    st.session_state.df_stats = None
 
 if st.button("Run CM Pipeline"):
+
+    st.session_state.pipeline_complete = False  # Reset state
     
     data = {
         "algo_name" : clustering_algorithm,
@@ -126,30 +134,35 @@ if st.button("Run CM Pipeline"):
     res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
 
     if res.status_code == 201:
-        st.success("Pipeline executed successfully! The resource has been created.")
+        st.session_state.pipeline_complete = True
 
-        df = pd.read_csv(res.json()["path"], sep="\t", names=["NodeID", "ClusterID"], header=None)
-
-        def convert_df(df):
-            # IMPORTANT: Cache the conversion to prevent computation on every rerun
-            return df.to_csv(index=False).encode("utf-8")
-
-        csv = convert_df(df)
-
-        st.download_button(
-            label="Download data as CSV",
-            data=csv,
-            file_name=clustering_algorithm+".csv",
-            mime="text/csv",
-        )
-        
+        st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", names=["NodeID", "ClusterID"], header=None)
+        st.session_state.df_stats = pd.read_csv(res.json()["stats"])
     else:
-        
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
         st.write(res.text)  
+    
 
+    
+if st.session_state.pipeline_complete:
+    st.success("Pipeline executed successfully! The resource has been created.")
 
+    def convert_df(df):
+        return df.to_csv(index=False).encode("utf-8")
 
+    csv = convert_df(st.session_state.df)
+    csv_stats = convert_df(st.session_state.df_stats)
 
+    st.download_button(
+        label="Download Clustering data as CSV",
+        data=csv,
+        file_name=clustering_algorithm + ".csv",
+        mime="text/csv",
+    )
 
-
+    st.download_button(
+        label="Download Stats data as CSV",
+        data=csv_stats,
+        file_name=clustering_algorithm + "_stats.csv",
+        mime="text/csv",
+    )
