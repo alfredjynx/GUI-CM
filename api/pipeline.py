@@ -153,7 +153,7 @@ class AlgoIn(BaseModel):
         dir = [d for d in dirs if algo in d and not d.startswith("S1")][0]
 
         for f in os.listdir(os.path.join(input_dir,dir)):
-            if out in f and f.endswith(".tsv"):
+            if out in f and f.endswith(".tsv") and "stats" not in f:
                 break
         
         return os.path.join(os.path.join(input_dir, dir), f)
