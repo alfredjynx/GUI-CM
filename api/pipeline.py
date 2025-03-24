@@ -151,8 +151,10 @@ class AlgoIn(BaseModel):
 
         dirs = os.listdir(input_dir)
 
-        dir = [d for d in dirs if algo in d and not d.startswith("S1")][0]
-        sorted_files = sorted(list(os.listdir(os.path.join(input_dir,dir))), key=self.extract_step_number,  reverse=True)
+        print(dirs)
+        
+        directory = [d for d in dirs if algo in d and not d.startswith("S1")][0]
+        sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
 
         for f in sorted_files:
             if out in f and f.endswith(".tsv") and "stats" not in f:
@@ -164,7 +166,7 @@ class AlgoIn(BaseModel):
         
 
         
-        return os.path.join(os.path.join(input_dir, dir), f), os.path.join(os.path.join(input_dir, dir), f_stats)
+        return os.path.join(os.path.join(input_dir, directory), f), os.path.join(os.path.join(input_dir, directory), f_stats)
         
     def extract_step_number(self, name):
         match = re.match(r"S(\d+)_", name)

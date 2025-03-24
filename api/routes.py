@@ -6,6 +6,30 @@ from datetime import datetime
 
 router = APIRouter()
 
+import subprocess
+
+def run_pipeline_command(json_path):
+    command = [
+        "python", "main.py", f"../api/{json_path}.json"
+    ]
+
+    try:
+        result = subprocess.run(
+            command,
+            cwd="../cm_pipeline", 
+            check=True, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE, 
+            text=True 
+        )
+        print("PIPELINE STDOUT:\n", result.stdout)
+        print("PIPELINE STDERR:\n", result.stderr)
+    except subprocess.CalledProcessError as e:
+        print("🚨 Pipeline command failed:")
+        print("STDOUT:\n", e.stdout)
+        print("STDERR:\n", e.stderr)
+        raise
+
 def extract_datetime(entry):
     _, date, time = entry.split('-')
     return datetime.strptime(date + time, "%Y%m%d%H:%M:%S")
@@ -15,15 +39,15 @@ def run_pipeline(algoIn: AlgoIn):
 
     json_path, input_dir =  algoIn.callJSON()
 
-    terminal_command = f"""
-    cd ..
-    cd cm_pipeline
-    python -m main ../api/{json_path}.json
-    """
+    run_pipeline_command(json_path=json_path)
 
-    os.system(terminal_command)
+    base_path = os.path.dirname(__file__)  # /app/api
+    input_dir = os.path.join(base_path, "samples")
 
-    input_dir += sorted(os.listdir(input_dir))[-1]
+    latest_sample = sorted(os.listdir(input_dir))[-1]
+    print(latest_sample)
+    print(input_dir)
+    input_dir = os.path.join(input_dir, latest_sample)
 
     algoIn.postTreatment(input_dir)
 

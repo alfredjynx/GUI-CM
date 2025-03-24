@@ -131,7 +131,7 @@ if st.button("Run CM Pipeline"):
         "post_treatment": st.session_state.post_treatment,
         "filter_select": filter_select == "ON"
     }
-    res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
+    res = requests.post('http://backend:8000/pipeline', data= json.dumps(data))
 
     if res.status_code == 201:
         st.session_state.pipeline_complete = True

@@ -81,6 +81,10 @@
       git submodule update
       ```
 
+      ```bash
+      git submodule update --init --recursive  
+      ```
+
   4. **Install cm_pipeline Requirements**
    
       Navigate to the `cm_pipeline` directory:
