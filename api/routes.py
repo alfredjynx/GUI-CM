@@ -10,7 +10,7 @@ import subprocess
 
 def run_pipeline_command(json_path):
     command = [
-        "python", "main.py", f"../api/{json_path}.json"
+        "python3", "main.py", f"../api/{json_path}.json"
     ]
 
     try:
