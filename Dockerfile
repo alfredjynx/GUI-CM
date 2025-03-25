@@ -1,10 +1,12 @@
-FROM python:3.10-slim
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-pip \
-    python3-dev \
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    wget \
+    curl \
+    gnupg \
     build-essential \
     cmake \
     libboost-all-dev \
@@ -14,17 +16,34 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
-    python3-numpy \
-    python3-scipy \
-    python3-matplotlib \
-    graphviz \
     libxml2-dev \
     libxslt-dev \
     libyaml-dev \
     libffi-dev \
-    python3-graph-tool && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    graphviz \
+    lsb-release
+
+RUN add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt-get update && \
+    apt-get install -y python3.10 python3.10-dev python3.10-distutils
+
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+
+RUN python3.10 -m pip install --no-cache-dir \
+    numpy==1.26.4 \
+    scipy \
+    matplotlib
+
+
+RUN apt-get install -y wget lsb-release && \
+    wget https://downloads.skewed.de/skewed-keyring/skewed-keyring_1.1_all_$(lsb_release -s -c).deb && \
+    dpkg -i skewed-keyring_1.1_all_$(lsb_release -s -c).deb && \
+    echo "deb [signed-by=/usr/share/keyrings/skewed-keyring.gpg] https://downloads.skewed.de/apt $(lsb_release -s -c) main" \
+    > /etc/apt/sources.list.d/skewed.list && \
+    apt-get update && \
+    apt-get install -y python3-graph-tool
 
 
 RUN apt-get update && apt-get install -y \
@@ -61,7 +80,7 @@ COPY . /app
 
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
-RUN python -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pip
 
 
 WORKDIR /app/cm_pipeline
