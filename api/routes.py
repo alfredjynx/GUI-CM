@@ -2,7 +2,10 @@ import os
 from fastapi import APIRouter, status
 
 from pipeline import AlgoIn
-from datetime import datetime
+
+from scripts.move_log import check_log_file
+from scripts.run_deletion import delete_old_files
+from scripts.folder_renaming import rename_folders
 
 router = APIRouter()
 
@@ -30,23 +33,24 @@ def run_pipeline_command(json_path):
         print("STDERR:\n", e.stderr)
         raise
 
-def extract_datetime(entry):
-    _, date, time = entry.split('-')
-    return datetime.strptime(date + time, "%Y%m%d%H:%M:%S")
 
 @router.post("/pipeline", response_model=dict, status_code=status.HTTP_201_CREATED, tags=["items"])
 def run_pipeline(algoIn: AlgoIn): 
+    
+    delete_old_files()
+    
 
     json_path, input_dir =  algoIn.callJSON()
 
     run_pipeline_command(json_path=json_path)
+    check_log_file()
+    rename_folders()
 
     base_path = os.path.dirname(__file__)  # /app/api
     input_dir = os.path.join(base_path, "samples")
 
     latest_sample = sorted(os.listdir(input_dir))[-1]
-    print(latest_sample)
-    print(input_dir)
+
     input_dir = os.path.join(input_dir, latest_sample)
 
     algoIn.postTreatment(input_dir)

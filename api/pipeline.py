@@ -151,7 +151,6 @@ class AlgoIn(BaseModel):
 
         dirs = os.listdir(input_dir)
 
-        print(dirs)
         
         directory = [d for d in dirs if algo in d and not d.startswith("S1")][0]
         sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
