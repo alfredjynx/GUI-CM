@@ -55,7 +55,7 @@ def run_pipeline(algoIn: AlgoIn):
 
     algoIn.postTreatment(input_dir)
 
-    f_path, f_stats_path = algoIn.get_type_post(input_dir=input_dir)
+    f_path, f_stats_path = algoIn.get_outfiles(input_dir=input_dir)
 
     return {"path":f_path, "stats":f_stats_path}
 

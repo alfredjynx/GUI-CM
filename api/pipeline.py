@@ -135,7 +135,7 @@ class AlgoIn(BaseModel):
               cluster_path=cluster_path,
               output_file_path=output_file_path)
     
-    def get_type_post(self, input_dir):
+    def get_outfiles(self, input_dir):
 
         if self.post_treatment == "cm" or self.post_treatment == "":
             out = "make_cm_ready"
@@ -149,23 +149,31 @@ class AlgoIn(BaseModel):
         else:
             algo = self.algo_name
 
-        dirs = os.listdir(input_dir)
 
+        if "cc" in self.post_treatment:
+            dirs = os.listdir(os.path.join(input_dir,"post"))
         
-        directory = [d for d in dirs if algo in d and not d.startswith("S1")][0]
-        sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
+            f = [d for d in dirs if algo in d and not d.endswith("json")][0]
+            
+            return os.path.join(os.path.join(input_dir, "post"), f), ""
+        else:
+            dirs = os.listdir(input_dir)
+        
+            directory = [d for d in dirs if algo in d and not d.startswith("S1")][0]
+            
+            sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
 
-        for f in sorted_files:
-            if out in f and f.endswith(".tsv") and "stats" not in f:
-                break
-        
-        for f_stats in sorted_files:
-            if "stats" in f_stats:
-                break
-        
+            for f in sorted_files:
+                if out in f and f.endswith(".tsv") and "stats" not in f:
+                    break
+            
+            for f_stats in sorted_files:
+                if "stats" in f_stats:
+                    break
+            
 
-        
-        return os.path.join(os.path.join(input_dir, directory), f), os.path.join(os.path.join(input_dir, directory), f_stats)
+            
+            return os.path.join(os.path.join(input_dir, directory), f), os.path.join(os.path.join(input_dir, directory), f_stats)
         
     def extract_step_number(self, name):
         match = re.match(r"S(\d+)_", name)
