@@ -38,7 +38,7 @@ def run_pipeline_command(json_path):
 def run_pipeline(algoIn: AlgoIn): 
     
     delete_old_files()
-    
+    check_log_file()
 
     json_path, input_dir =  algoIn.callJSON()
 
