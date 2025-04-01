@@ -21,29 +21,30 @@ RUN apt-get update && apt-get install -y \
     libyaml-dev \
     libffi-dev \
     graphviz \
-    lsb-release
+    lsb-release \
+    bzip2 \
+    ca-certificates \
+    libglib2.0-0 \
+    libxext6 \
+    libsm6 \
+    libxrender1 \
+    git
 
-RUN add-apt-repository ppa:deadsnakes/ppa -y && \
-    apt-get update && \
-    apt-get install -y python3.10 python3.10-dev python3.10-distutils
+ENV CONDA_DIR=/opt/conda
+ENV PATH=$CONDA_DIR/bin:$PATH
 
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
+    rm /tmp/miniconda.sh && \
+    conda clean -afy
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+RUN conda create -y -n gt -c conda-forge python=3.10 graph-tool && \
+    conda run -n gt pip install --no-cache-dir \
+        numpy==1.26.4 \
+        scipy \
+        matplotlib && \
+    conda clean -afy
 
-RUN python3.10 -m pip install --no-cache-dir \
-    numpy==1.26.4 \
-    scipy \
-    matplotlib
-
-
-RUN apt-get install -y wget lsb-release && \
-    wget https://downloads.skewed.de/skewed-keyring/skewed-keyring_1.1_all_$(lsb_release -s -c).deb && \
-    dpkg -i skewed-keyring_1.1_all_$(lsb_release -s -c).deb && \
-    echo "deb [signed-by=/usr/share/keyrings/skewed-keyring.gpg] https://downloads.skewed.de/apt $(lsb_release -s -c) main" \
-    > /etc/apt/sources.list.d/skewed.list && \
-    apt-get update && \
-    apt-get install -y python3-graph-tool
 
 RUN apt-get update && apt-get install -y \
     gcc-10 \
@@ -87,6 +88,7 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --upgrade pip
 
+SHELL ["conda", "run", "-n", "gt", "/bin/bash", "-c"]
 
 WORKDIR /app/cm_pipeline
 RUN ls
@@ -97,6 +99,7 @@ WORKDIR /app  # Return to base
 RUN pip install -r /app/requirements.txt
 
 
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "gt"]
 CMD ["bash"]
     
 
