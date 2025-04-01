@@ -45,6 +45,11 @@ RUN apt-get install -y wget lsb-release && \
     apt-get update && \
     apt-get install -y python3-graph-tool
 
+RUN apt-get update && apt-get install -y \
+    gcc-10 \
+    g++-10
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 800 --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -57,7 +62,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zlib1g-dev \
     cmake \
-    gcc \
+    # gcc \
     g++ \
     git \
     r-base \
