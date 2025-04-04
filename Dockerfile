@@ -72,3 +72,4 @@ RUN conda run -n gt pip install -r /app/cm_pipeline/requirements.txt
 WORKDIR /app  # Return to base
 RUN conda run -n gt pip install -r /app/requirements.txt
 ENV KMP_DUPLICATE_LIB_OK=True
+ENV OMP_NUM_THREADS=1
