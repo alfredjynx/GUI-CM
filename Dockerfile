@@ -57,8 +57,6 @@ RUN conda install -n gt pip
 
 
 RUN apt-get update && apt-get install -y \
-
-RUN apt-get update && apt-get install -y \
     gcc-10 \
     g++-10
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 800 --slave /usr/bin/g++ g++ /usr/bin/g++-10
@@ -67,10 +65,7 @@ RUN R -e "install.packages(c('data.table', 'feather'), repos='http://cran.rstudi
 
 
 WORKDIR /app
-
 COPY . /app
-
-
 WORKDIR /app/cm_pipeline
 RUN conda run -n gt pip install -r /app/cm_pipeline/requirements.txt
 
