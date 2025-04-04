@@ -3,8 +3,11 @@ import shutil
 from datetime import datetime, timedelta
 
 def extract_datetime(entry):
-    _, date, time = entry.split('-')
-    return datetime.strptime(date + time, "%Y%m%d%H:%M:%S")
+    entry_arr = entry.split('-')
+    if len(entry_arr) == 3:
+        _, date, time = entry.split('-')
+        return datetime.strptime(date + time, "%Y%m%d%H:%M:%S")
+    return None
 
 
 def clear_directory(directory_path):
@@ -28,7 +31,7 @@ def delete_old_files():
     
     for d in dirs:
         dt = extract_datetime(d)
-        
-        if datetime.now() - dt > timedelta(hours=24):
-            clear_directory(os.path.join("./samples", d))
-            os.rmdir(os.path.join("./samples", d))
+        if dt is not None:
+            if datetime.now() - dt > timedelta(hours=24):
+                clear_directory(os.path.join("./samples", d))
+                os.rmdir(os.path.join("./samples", d))

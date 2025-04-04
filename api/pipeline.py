@@ -36,7 +36,7 @@ class AlgoIn(BaseModel):
         if len(self.file_path) == 0:
             self.file_path = "network.tsv"
         
-        if "cm" in self.post_treatment:
+        if self.post_treatment == "cm":
             include_cm = True
         else:
             include_cm = False

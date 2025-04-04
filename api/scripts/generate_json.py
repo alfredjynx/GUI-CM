@@ -12,7 +12,7 @@ def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
         "title": "example",
         "name": "example",
         "input_file": input_file,
-        "output_dir": "../api/samples/",
+        "output_dir": "samples/",
         "algorithm": algorithm,
         "params": formated_param,
         "stages": [
@@ -29,12 +29,9 @@ def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
             # 4 Possible CM treatment
             # 5 Possible pos CM filter
             # 6 Possible Stats
-            
-
         ]
     }
-    
-    
+
     if filtering:
         
         filtering_dict =    {
@@ -62,15 +59,15 @@ def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
         "name": "connectivity_modifier",
         "memprof": False,
         "threshold": "1log10",
-        "nprocs": 4,
-        "quiet": True
+        "nprocs": 1,
+        "quiet": True,
         }
         
 
         if algorithm == "infomap":
-            connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/infomap_wrapper.py"
+            connectivity_modifier["cfile"]="../cm_pipeline/hm01/clusterers/external_clusterers/infomap_wrapper.py"
         elif algorithm == "sbm":
-            connectivity_modifier["clusterer_file"]="../../../cm_pipeline/hm01/clusterers/external_clusterers/sbm_wrapper.py"
+            connectivity_modifier["cfile"]="../cm_pipeline/hm01/clusterers/external_clusterers/sbm_wrapper.py"
         
         pipeline["stages"].append(connectivity_modifier)
 
