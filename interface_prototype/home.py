@@ -131,13 +131,14 @@ if st.button("Run CM Pipeline"):
         "post_treatment": st.session_state.post_treatment,
         "filter_select": filter_select == "ON"
     }
-    res = requests.post('http://127.0.0.1:8000/pipeline', data= json.dumps(data))
+    res = requests.post('http://backend:8000/pipeline', data= json.dumps(data))
 
     if res.status_code == 201:
         st.session_state.pipeline_complete = True
 
         st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", names=["NodeID", "ClusterID"], header=None)
-        st.session_state.df_stats = pd.read_csv(res.json()["stats"])
+        if res.json()["stats"] != "":
+            st.session_state.df_stats = pd.read_csv(res.json()["stats"])
     else:
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
         st.write(res.text)  
@@ -151,7 +152,6 @@ if st.session_state.pipeline_complete:
         return df.to_csv(index=False).encode("utf-8")
 
     csv = convert_df(st.session_state.df)
-    csv_stats = convert_df(st.session_state.df_stats)
 
     st.download_button(
         label="Download Clustering data as CSV",
@@ -160,9 +160,11 @@ if st.session_state.pipeline_complete:
         mime="text/csv",
     )
 
-    st.download_button(
-        label="Download Stats data as CSV",
-        data=csv_stats,
-        file_name=clustering_algorithm + "_stats.csv",
-        mime="text/csv",
-    )
+    if st.session_state.df_stats is not None:
+        csv_stats = convert_df(st.session_state.df_stats)
+        st.download_button(
+            label="Download Stats data as CSV",
+            data=csv_stats,
+            file_name=clustering_algorithm + "_stats.csv",
+            mime="text/csv",
+        )
