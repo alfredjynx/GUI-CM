@@ -49,13 +49,11 @@ class AlgoIn(BaseModel):
             return
 
 
-        if self.algo_name == "leiden":
+        if self.algo_name == "leiden":            
             if self.filter_select:
-                # S6_example_leiden.res0.001_i2_post_cm_filter.R.tsv
-                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S6_example_leiden.res" + str(self.params["res"]) + "_i" + str(self.params["i"])+"_post_cm_filter.R.tsv"
+                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S3_example_leiden.res" + str(self.params["res"]) + "_i" + str(self.params["i"])+"_make_cm_ready.R.tsv"
             else:
-                # S4_example_leiden.connectivity_modifier_res0.001_i2.tsv
-                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S4_example_leiden.connectivity_modifier_res" + str(self.params["res"]) + "_i" + str(self.params["i"])+".tsv"
+                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S2_example_leiden." + str(self.params["res"]) + "_i" + str(self.params["i"])+"_clustering.tsv"
 
             output_dir_path = input_dir + "/post"
 
@@ -72,11 +70,10 @@ class AlgoIn(BaseModel):
         elif  self.algo_name == "leiden_mod":
 
             if self.filter_select:
-                # S6_example_leiden_mod.i1_post_cm_filter.R.tsv
-                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S6_example_leiden_mod.i" + str(self.params["i"])+"_post_cm_filter.R.tsv"
+                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S3_example_leiden_mod.i" + str(self.params["i"])+"_make_cm_ready.R.tsv"
             else:
-                # S4_example_leiden_mod.connectivity_modifier_i1.tsv
-                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S4_example_leiden_mod.connectivity_modifier_i" + str(self.params["i"])+".tsv"
+                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S2_example_leiden_mod.i" + str(self.params["i"]) + "_clustering.tsv"
+                
 
             output_dir_path = input_dir + "/post"
 
@@ -123,6 +120,7 @@ class AlgoIn(BaseModel):
                 output_file_path = output_dir_path + "/output_sbm_clustering_cc.tsv"
 
 
+        # print(self.file_path)
         
         cm_prefix = "cm-"
         if cm_prefix in self.post_treatment:
