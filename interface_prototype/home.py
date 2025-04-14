@@ -157,7 +157,7 @@ if st.button("Run CM Pipeline"):
     if res.status_code == 201:
         st.session_state.pipeline_complete = True
 
-        st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", names=["NodeID", "ClusterID"], header=None)
+        st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", header=None)
         if res.json()["stats"] != "":
             st.session_state.df_stats = pd.read_csv(res.json()["stats"])
     else:
