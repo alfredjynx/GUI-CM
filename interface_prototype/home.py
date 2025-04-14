@@ -17,10 +17,11 @@ if 'param' not in st.session_state:
 st.title("CM Interface")
 
 file_path = ""
+st.session_state.param = {}
 
 file_select = st.sidebar.selectbox(
     'File Options',
-    ('Relative Path', 'Upload','Default')
+    ('Relative Path', 'Upload Edge List', 'Upload Existing Clustering', 'Default')
 )
 
 if file_select == "Relative Path":
@@ -31,7 +32,7 @@ if file_select == "Relative Path":
     if file_path:
         st.write("You entered: ", file_path)
 
-elif file_select == 'Upload':
+elif file_select == 'Upload Edge List':
 
     uploaded_file = st.sidebar.file_uploader(
         'Input File'
@@ -53,6 +54,28 @@ elif file_select == 'Upload':
 
         file_path = f'./data/file_{date}.tsv'
 
+elif file_select == 'Upload Existing Clustering':
+
+    cluster_uploaded_file = st.sidebar.file_uploader(
+        'Existing Clustering File'
+    )
+
+    if cluster_uploaded_file is not None:
+
+        stringio = StringIO(cluster_uploaded_file.getvalue().decode("utf-8"))
+
+        date = "-".join(str(datetime.now()).split('.')[0].split(' '))
+
+        print(date)
+
+        os.makedirs("../api/clustering/", exist_ok=True)
+
+        with open(f'../api/clustering/file_{date}.tsv', 'w') as fd:
+            stringio.seek(0)
+            shutil.copyfileobj(stringio, fd)
+
+        st.session_state.param["existing_clustering"] = f'clustering/file_{date}.tsv'
+
 
 algorithm = st.sidebar.selectbox(
     'Algorithm',
@@ -60,24 +83,20 @@ algorithm = st.sidebar.selectbox(
 )
 
 if algorithm == 'Leiden-CPM':
-    st.session_state.param = {}
     resolution = st.sidebar.number_input(label= "Resolution", value= 0.001, format="%f")
     iteration = st.sidebar.number_input(label= "Iterations", value= 2)
     st.session_state.param["res"] = float(resolution)
     st.session_state.param["i"] = int(iteration)
     clustering_algorithm = 'leiden'
 elif algorithm == 'Leiden-Mod':
-    st.session_state.param = {}
     iteration = st.sidebar.number_input(label= "Iterations", min_value=1, max_value=100, step=1, value=1)
     clustering_algorithm = 'leiden_mod'
     if iteration is not None:
         print(iteration)
         st.session_state.param["i"] = int(iteration)
 elif algorithm == 'Infomap':
-    st.session_state.param = {}
     clustering_algorithm = 'infomap'
 elif algorithm == "Stochastic Block Model (SBM)":
-    st.session_state.param = {}
     
     block_state = st.sidebar.selectbox(
         "Select block state:",
@@ -121,6 +140,8 @@ if "df_stats" not in st.session_state:
     st.session_state.df_stats = None
 
 if st.button("Run CM Pipeline"):
+    
+    print(st.session_state.param)
 
     st.session_state.pipeline_complete = False  # Reset state
     

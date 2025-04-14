@@ -5,8 +5,10 @@ def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
     
 
     formated_param = [raw_params]
+    
 
     
+    print(raw_params)
     
     pipeline = {
         "title": "example",
@@ -15,7 +17,7 @@ def generate_json(algorithm, raw_params, input_file, include_cm, filtering):
         "output_dir": "samples/",
         "algorithm": algorithm,
         "params": formated_param,
-        "stages": [
+        "stages": [{"name": "cleanup"}] if "existing_clustering" in raw_params else [
             # 1
             {
                 "name": "cleanup"
