@@ -49,11 +49,13 @@ class AlgoIn(BaseModel):
             return
 
 
-        if self.algo_name == "leiden":            
+        if self.algo_name == "leiden": 
+            output_dir_path = os.path.join(input_dir , "leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]))           
+            output_files = os.listdir(output_dir_path)
             if self.filter_select:
-                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S3_example_leiden.res" + str(self.params["res"]) + "_i" + str(self.params["i"])+"_make_cm_ready.R.tsv"
+                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
             else:
-                cluster_path = input_dir + "/leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]) + "/S2_example_leiden." + str(self.params["res"]) + "_i" + str(self.params["i"])+"_clustering.tsv"
+                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
 
             output_dir_path = input_dir + "/post"
 
@@ -69,10 +71,12 @@ class AlgoIn(BaseModel):
 
         elif  self.algo_name == "leiden_mod":
 
+            output_dir_path = os.path.join(input_dir , "leiden_mod_i" + str(self.params["i"]))
+            output_files = os.listdir(output_dir_path)
             if self.filter_select:
-                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S3_example_leiden_mod.i" + str(self.params["i"])+"_make_cm_ready.R.tsv"
+                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
             else:
-                cluster_path = input_dir + "/leiden_mod_i" + str(self.params["i"]) + "/S2_example_leiden_mod.i" + str(self.params["i"]) + "_clustering.tsv"
+                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
                 
 
             output_dir_path = input_dir + "/post"
