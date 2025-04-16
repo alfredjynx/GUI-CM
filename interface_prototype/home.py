@@ -149,8 +149,6 @@ if "df_stats" not in st.session_state:
 
 if st.button("Run CM Pipeline") and len(file_path) > 0:
     
-    file_path = ""
-    
     print(st.session_state.param)
 
     st.session_state.pipeline_complete = False  # Reset state
@@ -174,6 +172,7 @@ if st.button("Run CM Pipeline") and len(file_path) > 0:
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
         st.write(res.text)  
     
+    file_path = ""
 
     
 if st.session_state.pipeline_complete:
