@@ -46,7 +46,6 @@ if 'Upload' in file_select:
 
         date = "-".join(str(datetime.now()).split('.')[0].split(' '))
 
-        print(date)
 
         os.makedirs("../api/data/", exist_ok=True)
 
@@ -74,7 +73,6 @@ if 'Upload' in file_select:
 
             date = "-".join(str(datetime.now()).split('.')[0].split(' '))
 
-            print(date)
 
             os.makedirs("../api/clustering/", exist_ok=True)
 
@@ -100,7 +98,6 @@ elif algorithm == 'Leiden-Mod':
     iteration = st.sidebar.number_input(label= "Iterations", min_value=1, max_value=100, step=1, value=1)
     clustering_algorithm = 'leiden_mod'
     if iteration is not None:
-        print(iteration)
         st.session_state.param["i"] = int(iteration)
 elif algorithm == 'Infomap':
     clustering_algorithm = 'infomap'
@@ -147,9 +144,8 @@ if "df" not in st.session_state:
 if "df_stats" not in st.session_state:
     st.session_state.df_stats = None
 
-if st.button("Run CM Pipeline") and len(file_path) > 0:
+if st.button("Run CM Pipeline"):
     
-    print(st.session_state.param)
 
     st.session_state.pipeline_complete = False  # Reset state
     
@@ -164,16 +160,16 @@ if st.button("Run CM Pipeline") and len(file_path) > 0:
 
     if res.status_code == 201:
         st.session_state.pipeline_complete = True
+        
+        print(res.json()["path"])
 
-        st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", header=None)
+        st.session_state.df = pd.read_csv(res.json()["path"], header=None)
         if res.json()["stats"] != "":
             st.session_state.df_stats = pd.read_csv(res.json()["stats"])
     else:
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
         st.write(res.text)  
     
-    file_path = ""
-
     
 if st.session_state.pipeline_complete:
     st.success("Pipeline executed successfully! The resource has been created.")
