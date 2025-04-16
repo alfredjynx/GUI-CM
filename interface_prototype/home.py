@@ -32,10 +32,10 @@ if file_select == "Relative Path":
     if file_path:
         st.write("You entered: ", file_path)
 
-elif file_select == 'Upload Edge List':
+if 'Upload' in file_select:
 
     uploaded_file = st.sidebar.file_uploader(
-        'Input File'
+        'Edge List File'
     )
 
     if uploaded_file is not None:
@@ -54,7 +54,7 @@ elif file_select == 'Upload Edge List':
 
         file_path = f'./data/file_{date}.tsv'
 
-elif file_select == 'Upload Existing Clustering':
+if file_select == 'Upload Existing Clustering':
 
     cluster_uploaded_file = st.sidebar.file_uploader(
         'Existing Clustering File'
@@ -139,7 +139,9 @@ if "df" not in st.session_state:
 if "df_stats" not in st.session_state:
     st.session_state.df_stats = None
 
-if st.button("Run CM Pipeline"):
+if st.button("Run CM Pipeline") and len(file_path) > 0:
+    
+    file_path = ""
     
     print(st.session_state.param)
 
