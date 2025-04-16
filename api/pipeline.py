@@ -50,12 +50,16 @@ class AlgoIn(BaseModel):
 
 
         if self.algo_name == "leiden": 
-            output_dir_path = os.path.join(input_dir , "leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]))           
-            output_files = os.listdir(output_dir_path)
-            if self.filter_select:
-                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
+            if not self.filter_select and "existing_clustering" in self.params:
+                cluster_path = self.params["existing_clustering"]
             else:
-                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
+            
+                output_dir_path = os.path.join(input_dir , "leiden_res" + str(self.params["res"]) + "_i" + str(self.params["i"]))           
+                output_files = os.listdir(output_dir_path)
+                if self.filter_select:
+                    cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
+                else:
+                    cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
 
             output_dir_path = input_dir + "/post"
 
@@ -70,13 +74,16 @@ class AlgoIn(BaseModel):
 
 
         elif  self.algo_name == "leiden_mod":
-
-            output_dir_path = os.path.join(input_dir , "leiden_mod_i" + str(self.params["i"]))
-            output_files = os.listdir(output_dir_path)
-            if self.filter_select:
-                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
+            if not self.filter_select and "existing_clustering" in self.params:
+                cluster_path = self.params["existing_clustering"]
             else:
-                cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
+
+                output_dir_path = os.path.join(input_dir , "leiden_mod_i" + str(self.params["i"]))
+                output_files = os.listdir(output_dir_path)
+                if self.filter_select:
+                    cluster_path = os.path.join(output_dir_path, [f for f in output_files if "make_cm_ready" in f][0])
+                else:
+                    cluster_path = os.path.join(output_dir_path, [f for f in output_files if "clustering" in f][0])
                 
 
             output_dir_path = input_dir + "/post"
@@ -164,10 +171,18 @@ class AlgoIn(BaseModel):
             directory = [d for d in dirs if algo in d and not d.startswith("S1")][0]
             
             sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
-
-            for f in sorted_files:
-                if out in f and f.endswith(".tsv") and "stats" not in f:
-                    break
+            
+            if "existing_clustering" not in self.params:
+                print("entrei errado")
+                for f in sorted_files:
+                    if out in f and f.endswith(".tsv") and "stats" not in f:
+                        
+                        break
+            else:
+                for f in sorted_files:
+                    if f.endswith(".tsv") and "stats" not in f:
+                        
+                        break
             
             for f_stats in sorted_files:
                 if "stats" in f_stats:
