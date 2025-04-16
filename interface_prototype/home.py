@@ -180,14 +180,14 @@ if st.session_state.pipeline_complete:
     st.success("Pipeline executed successfully! The resource has been created.")
 
     def convert_df(df):
-        return df.to_csv(index=False).encode("utf-8")
+        return df.to_csv(index=False, sep="\t").encode("utf-8")
 
     csv = convert_df(st.session_state.df)
 
     st.download_button(
-        label="Download Clustering data as CSV",
+        label="Download Clustering data as TSV",
         data=csv,
-        file_name=clustering_algorithm + ".csv",
+        file_name=clustering_algorithm + ".tsv",
         mime="text/csv",
     )
 
