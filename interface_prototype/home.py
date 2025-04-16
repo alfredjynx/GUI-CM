@@ -179,7 +179,7 @@ if st.session_state.pipeline_complete:
     st.success("Pipeline executed successfully! The resource has been created.")
 
     def convert_df(df):
-        return df.to_csv(index=False, sep="\t").encode("utf-8")
+        return df.to_csv(index=False, sep="\t", header=None).encode("utf-8")
 
     csv = convert_df(st.session_state.df)
 
