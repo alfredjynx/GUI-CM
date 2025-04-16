@@ -190,7 +190,7 @@ if st.session_state.pipeline_complete:
         mime="text/csv",
     )
 
-    if st.session_state.df_stats is not None:
+    if st.session_state.df_stats is not None and "cc" not in st.session_state.post_treatment:
         csv_stats = convert_df(st.session_state.df_stats)
         st.download_button(
             label="Download Stats data as CSV",
