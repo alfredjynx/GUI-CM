@@ -21,7 +21,9 @@ st.session_state.param = {}
 
 file_select = st.sidebar.selectbox(
     'File Options',
-    ('Relative Path', 'Upload Edge List', 'Upload Existing Clustering', 'Default')
+    # ('Relative Path', 'Upload Edge List', 'Upload Existing Clustering', 'Default')
+    ('Relative Path', 'Upload Edge List', 'Default')
+    
 )
 
 if file_select == "Relative Path":
@@ -54,27 +56,33 @@ if 'Upload' in file_select:
 
         file_path = f'./data/file_{date}.tsv'
 
-if file_select == 'Upload Existing Clustering':
-
-    cluster_uploaded_file = st.sidebar.file_uploader(
-        'Existing Clustering File'
+# if file_select == 'Upload Existing Clustering':\
+    
+    clustering = st.sidebar.checkbox(
+        "Upload Existing Clustering?", value=False
     )
+    
+    if clustering:
 
-    if cluster_uploaded_file is not None:
+        cluster_uploaded_file = st.sidebar.file_uploader(
+            'Existing Clustering File'
+        )
 
-        stringio = StringIO(cluster_uploaded_file.getvalue().decode("utf-8"))
+        if cluster_uploaded_file is not None:
 
-        date = "-".join(str(datetime.now()).split('.')[0].split(' '))
+            stringio = StringIO(cluster_uploaded_file.getvalue().decode("utf-8"))
 
-        print(date)
+            date = "-".join(str(datetime.now()).split('.')[0].split(' '))
 
-        os.makedirs("../api/clustering/", exist_ok=True)
+            print(date)
 
-        with open(f'../api/clustering/file_{date}.tsv', 'w') as fd:
-            stringio.seek(0)
-            shutil.copyfileobj(stringio, fd)
+            os.makedirs("../api/clustering/", exist_ok=True)
 
-        st.session_state.param["existing_clustering"] = f'clustering/file_{date}.tsv'
+            with open(f'../api/clustering/file_{date}.tsv', 'w') as fd:
+                stringio.seek(0)
+                shutil.copyfileobj(stringio, fd)
+
+            st.session_state.param["existing_clustering"] = f'clustering/file_{date}.tsv'
 
 
 algorithm = st.sidebar.selectbox(
