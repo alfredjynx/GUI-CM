@@ -146,6 +146,7 @@ if "df_stats" not in st.session_state:
 
 if st.button("Run CM Pipeline"):
     
+    print(st.session_state.param)
 
     st.session_state.pipeline_complete = False  # Reset state
     
@@ -163,9 +164,14 @@ if st.button("Run CM Pipeline"):
         
         print(res.json()["path"])
 
-        st.session_state.df = pd.read_csv(res.json()["path"], header=None)
-        if res.json()["stats"] != "":
-            st.session_state.df_stats = pd.read_csv(res.json()["stats"])
+        try:
+            st.session_state.df = pd.read_csv(res.json()["path"], sep="\t", header=None)
+            if res.json()["stats"] != "":
+                st.session_state.df_stats = pd.read_csv(res.json()["stats"])
+        except:
+            st.error("Pipeline executed successfully, but the filtering stage left a blank document")
+            st.session_state.pipeline_complete = False
+            
     else:
         st.error(f"Error: Unable to execute the pipeline. Status Code: {res.status_code}")
         st.write(res.text)  
