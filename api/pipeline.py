@@ -98,7 +98,10 @@ class AlgoIn(BaseModel):
         
         elif  self.algo_name == "infomap":
             
-            cluster_path = input_dir + "/infomap/S2_example_infomap_clustering.tsv"
+            if "existing_clustering" in self.params:
+                cluster_path = self.params["existing_clustering"]
+            else:
+                cluster_path = input_dir + "/infomap/S2_example_infomap_clustering.tsv"
 
             output_dir_path = input_dir + "/post"
 
@@ -113,8 +116,9 @@ class AlgoIn(BaseModel):
         elif self.algo_name == "sbm":
 
             sbm_dir = get_dir_name_sbm(input_dir)
-
-            if self.filter_select:
+            if "existing_clustering" in self.params:
+                cluster_path = self.params["existing_clustering"]
+            elif self.filter_select:
                 cluster_path = input_dir + "/" + sbm_dir + "/" + get_file_sbm(input_dir + "/" + sbm_dir )
             else:
                 cluster_path = input_dir + "/" + sbm_dir + "/S2_example_sbm_clustering.tsv"
@@ -173,7 +177,6 @@ class AlgoIn(BaseModel):
             sorted_files = sorted(list(os.listdir(os.path.join(input_dir,directory))), key=self.extract_step_number,  reverse=True)
             
             if "existing_clustering" not in self.params:
-                print("entrei errado")
                 for f in sorted_files:
                     if out in f and f.endswith(".tsv") and "stats" not in f:
                         
