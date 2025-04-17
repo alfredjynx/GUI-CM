@@ -110,16 +110,18 @@ elif algorithm == "Stochastic Block Model (SBM)":
     
     block_state_dict = {"Non Nested":"non_nested_sbm", "Planted Partition Model": "planted_partition_model"}
 
-    degree_corrected = st.sidebar.checkbox(
-        "Degree corrected", value=False
-    )
+    if block_state == "Non Nested":
+        degree_corrected = st.sidebar.checkbox(
+            "Degree corrected", value=False
+        )
+        st.session_state.param["degree_corrected"] = degree_corrected 
+        
     st.session_state.param["block_state"] = block_state_dict[block_state]
-    st.session_state.param["degree_corrected"] = degree_corrected 
     clustering_algorithm = 'sbm'
 
 post_treatment = st.sidebar.selectbox(
     'Post Clustering Treatment',
-    ('None', 'CM', 'CM-CC', 'CM-WCC')
+    ('None', 'CM', 'CM-CC', 'CM-WCC') if not clustering else ('CM', 'CM-CC', 'CM-WCC')
 )
 
 if post_treatment == "CM-CC":
