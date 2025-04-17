@@ -187,13 +187,15 @@ class AlgoIn(BaseModel):
                         
                         break
             
-            for f_stats in sorted_files:
-                if "stats" in f_stats:
-                    break
+            # for f_stats in sorted_files:
+            #     if "stats" in f_stats:
+            #         break
             
 
             
-            return os.path.join(os.path.join(input_dir, directory), f), os.path.join(os.path.join(input_dir, directory), f_stats)
+            # return os.path.join(os.path.join(input_dir, directory), f), os.path.join(os.path.join(input_dir, directory), f_stats)
+            return os.path.join(os.path.join(input_dir, directory), f), ""
+        
         
     def extract_step_number(self, name):
         match = re.match(r"S(\d+)_", name)
