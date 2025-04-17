@@ -18,6 +18,7 @@ st.title("CM Interface")
 
 file_path = ""
 st.session_state.param = {}
+clustering = False
 
 file_select = st.sidebar.selectbox(
     'File Options',
