@@ -37,7 +37,7 @@ Local installation requires the user to setup the backend API and interface loca
 
 #### Example local Setup Instructions
 Here is an example set of commands on a machine that has all of the required and optional dependencies installed.
-      ```bash
+```bash
 git clone https://github.com/alfredjynx/GUI-CM.git
 cd GUI-CM
 git submodule update --init --recursive
