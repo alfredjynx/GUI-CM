@@ -1,4 +1,4 @@
-# CM API
+# GUI-CM
 This is a GUI wrapper for CM, or [Connectivity Modifier](https://github.com/illinois-or-research-analytics/cm_pipeline/tree/main), that enables the use of CM pipeline directly through a user-friendly web interface.
 ![](imgs/gui_cm_demo.gif)
 
