@@ -66,6 +66,33 @@ if clustering:
 
         st.session_state.param["existing_clustering"] = f'clustering/file_{date}.tsv'
 
+# if file_select == 'Upload Existing Clustering':\
+    
+    clustering = st.sidebar.checkbox(
+        "Upload Existing Clustering?", value=False
+    )
+    
+    if clustering:
+
+        cluster_uploaded_file = st.sidebar.file_uploader(
+            'Existing Clustering File'
+        )
+
+        if cluster_uploaded_file is not None:
+
+            stringio = StringIO(cluster_uploaded_file.getvalue().decode("utf-8"))
+
+            date = "-".join(str(datetime.now()).split('.')[0].split(' '))
+
+
+            os.makedirs("../api/clustering/", exist_ok=True)
+
+            with open(f'../api/clustering/file_{date}.tsv', 'w') as fd:
+                stringio.seek(0)
+                shutil.copyfileobj(stringio, fd)
+
+            st.session_state.param["existing_clustering"] = f'clustering/file_{date}.tsv'
+
 
 algorithm = st.sidebar.selectbox(
     'Algorithm',
