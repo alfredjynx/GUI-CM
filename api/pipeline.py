@@ -114,12 +114,13 @@ class AlgoIn(BaseModel):
 
         
         elif self.algo_name == "sbm":
-
+            # print(f"input_dir is {input_dir}")
             sbm_dir = get_dir_name_sbm(input_dir)
+            # print(f"sbm_dir is {sbm_dir}")
             if "existing_clustering" in self.params:
                 cluster_path = self.params["existing_clustering"]
             elif self.filter_select:
-                cluster_path = input_dir + "/" + sbm_dir + "/" + get_file_sbm(input_dir + "/" + sbm_dir )
+                cluster_path = input_dir + "/" + sbm_dir + "/" + get_file_sbm(input_dir + "/" + sbm_dir)
             else:
                 cluster_path = input_dir + "/" + sbm_dir + "/S2_example_sbm_clustering.tsv"
 
