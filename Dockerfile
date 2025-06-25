@@ -52,7 +52,11 @@ RUN ARCH=$(uname -m) && \
     rm /tmp/miniconda.sh && \
     conda clean -afy
 
-RUN conda create -y -n gt -c conda-forge graph-tool
+
+RUN conda create -n gt python=3.10 -c conda-forge
+RUN conda config --add channels conda-forge
+RUN conda config --set channel_priority strict
+RUN conda install -n gt graph-tool graph-tool-base
 RUN conda install -n gt pip
 
 
@@ -66,10 +70,11 @@ RUN R -e "install.packages(c('data.table', 'feather'), repos='http://cran.rstudi
 
 WORKDIR /app
 COPY . /app
+WORKDIR /app  # Return to base
+RUN conda run -n gt pip install networkit==11.0.1
+RUN conda run -n gt pip install -r /app/requirements.txt
 WORKDIR /app/cm_pipeline
 RUN conda run -n gt pip install -r /app/cm_pipeline/requirements.txt
 
-WORKDIR /app  # Return to base
-RUN conda run -n gt pip install -r /app/requirements.txt
 ENV KMP_DUPLICATE_LIB_OK=True
 ENV OMP_NUM_THREADS=1
