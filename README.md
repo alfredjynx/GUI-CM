@@ -2,6 +2,8 @@
 This is a GUI wrapper for CM, or [Connectivity Modifier](https://github.com/illinois-or-research-analytics/cm_pipeline/tree/main), that enables the use of CM pipeline directly through a user-friendly web interface.
 ![](imgs/gui_cm_demo.gif)
 
+All the class lessons live under the [lessons](lessons/) directory.
+
 CM citations:
 - Park, Minhyuk, Yasamin Tabatabaee, Vikram Ramavarapu, Baqiao Liu, Vidya Kamath Pailodi, Rajiv Ramachandran, Dmitriy Korobskiy, Fabio Ayres, George Chacko, and Tandy Warnow. "Well-connectedness and community detection." PLOS Complex Systems 1, no. 3 (2024): e0000009.
 - Ramavarapu, Vikram, Fábio Jose Ayres, Minhyuk Park, Vidya Kamath Pailodi, João Alfredo Cardoso Lamy, Tandy Warnow, and George Chacko. "Cm++-a meta-method for well-connected community detection." Journal of Open Source Software 9, no. 93 (2024): 6073.
