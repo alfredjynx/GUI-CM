@@ -119,7 +119,7 @@ $$
 | $p_{\circlearrowright}^i$  | Probability of visiting module $i$ and staying within it           |
 | $H(\mathcal{P}^i)$         | Entropy of the codebook within module $i$                          |
 
-For a more in-depth explanation please visit [mapequation.org/infomap](mapequation.org/infomap)
+For a more in-depth explanation please visit [mapequation.org/infomap](https://www.mapequation.org/infomap/)
 
 
 ### **4. Stochastic Block Model (SBM)**
