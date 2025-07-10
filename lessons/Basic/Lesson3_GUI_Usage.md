@@ -80,9 +80,9 @@ algorithm == 'Leiden-Mod'
 
 Modularity, as a concept, is a method that tries to maximise the difference between the actual number of edges in a community and the expected number of such edges. It is given by the following formula:
 
-\[
+$$
 \mathcal{H} = \frac{1}{2m} \sum_c \left( e_c - \gamma \frac{K_c^2}{2m} \right)
-\]
+$$
 
 
 | Symbol        | Meaning                                                                 |
@@ -105,9 +105,9 @@ No need to pass parameters via GUI, only the input files.
 
 The Infomap Clustering method is based on the [Map Equation](https://www.mapequation.org/publications.html#Rosvall-Axelsson-Bergstrom-2009-Map-equation). This equation minimizes something called the Description Lenght of a random walk in the network:
 
-\[
+$$
 L(M) = q_{\curvearrowright} H(\mathcal{Q}) + \sum_{i=1}^{m} p_{\circlearrowright}^i H(\mathcal{P}^i)
-\]
+$$
 
 
 | Symbol                         | Meaning                                                                 |
