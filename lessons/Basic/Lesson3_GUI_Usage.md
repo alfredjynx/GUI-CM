@@ -87,12 +87,12 @@ $$
 
 | Symbol        | Meaning                                                                 |
 |---------------|-------------------------------------------------------------------------|
-| \( \mathcal{H} \) | Modularity score (objective function being maximized)                  |
-| \( m \)        | Total number of edges in the network                                     |
-| \( c \)        | A community (subset of nodes in the network)                            |
-| \( e_c \)      | Number of edges **within** community \( c \)                            |
-| \( K_c \)      | Sum of the degrees of all nodes in community \( c \)                    |
-| \( \gamma \)   | Resolution parameter (controls granularity of the communities detected) |
+| $ \mathcal{H} $ | Modularity score (objective function being maximized)                  |
+| $ m $        | Total number of edges in the network                                     |
+| $ c $        | A community (subset of nodes in the network)                            |
+| $ e_c $      | Number of edges **within** community $ c $                            |
+| $ K_c $      | Sum of the degrees of all nodes in community $ c $                    |
+| $ \gamma $   | Resolution parameter (controls granularity of the communities detected) |
 
 
 For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
@@ -112,12 +112,12 @@ $$
 
 | Symbol                         | Meaning                                                                 |
 |--------------------------------|-------------------------------------------------------------------------|
-| \( L(M) \)                     | Description length of the random walk using partition \( M \)          |
-| \( q_{\curvearrowright} \)     | Probability of exiting a module (community)                            |
-| \( H(\mathcal{Q}) \)           | Entropy of the index codebook (used when jumping between modules)      |
-| \( m \)                        | Number of modules (communities) in the network                         |
-| \( p_{\circlearrowright}^i \)  | Probability of visiting module \( i \) and staying within it           |
-| \( H(\mathcal{P}^i) \)         | Entropy of the codebook within module \( i \)                          |
+| $ L(M) $                     | Description length of the random walk using partition $ M $          |
+| $ q_{\curvearrowright} $     | Probability of exiting a module (community)                            |
+| $ H(\mathcal{Q}) $           | Entropy of the index codebook (used when jumping between modules)      |
+| $ m $                        | Number of modules (communities) in the network                         |
+| $ p_{\circlearrowright}^i $  | Probability of visiting module $ i $ and staying within it           |
+| $ H(\mathcal{P}^i) $         | Entropy of the codebook within module $ i $                          |
 
 For a more in-depth explanation please visit mapequation.org/infomap
 
