@@ -18,6 +18,8 @@ Leiden is an algorithm which is built upon the [Louvain clustering method](https
 
 In our GUI, we have 2 different versions of Leiden available. 
 
+The Leiden algorithm employs an intermediate refinement phase in which communities may be split to guarantee that all communities are well-connected.
+
 #### Leiden CPM (Constant-Potts Model)
 
 Used when:
@@ -55,8 +57,7 @@ In out GUI, there is no weight between the edges, we are looking only at the exi
 The "Constant" in CPM is a reference to the Resolution Parameter, which you can pass to the GUI as a parameter
 
 
-
-
+Varying the Resolution Parameter may result in clusterings of different sizes and connectivity score.
 
 
 For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
@@ -77,7 +78,6 @@ algorithm == 'Leiden-Mod'
   Number of times the modularity-based Leiden algorithm is run.
 
 
-
 Modularity, as a concept, is a method that tries to maximise the difference between the actual number of edges in a community and the expected number of such edges. It is given by the following formula:
 
 $$
@@ -94,6 +94,7 @@ $$
 | $K_c$     | Sum of the degrees of all nodes in community $c$                   |
 | $\gamma$  | Resolution parameter (controls granularity of the communities detected) |
 
+This is closest to the Louvain Method for community detection. The modularity of the community is the relative density of edges inside communities with respect to edges outside communities
 
 For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
 
