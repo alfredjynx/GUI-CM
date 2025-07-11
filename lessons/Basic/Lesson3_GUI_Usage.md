@@ -1,6 +1,28 @@
 # Lesson 3 - Using the GUI
 
-In this lesson we'll be explaining how to use and what are the usages of the CM-GUI.
+In this lesson we'll be explaining how to use the CM-GUI, with examples and images.
+
+## Launching the GUI
+
+
+## Uploading a Network
+
+First, launch the GUI using you preferred method (either Docker or local install).
+
+There is a folder `/lessons/example_data` with a simple network edge list.
+
+The `network.tsv` file has no headers and two columns, a `Source` and a `Target` column. The first column is the `Source` and the second one is the `Target` node. Their values are the Node IDs of the respective connected nodes. They represent the edge between two different node. This type of file is known as an **Edge List**.
+
+That's what we'll be using as our input for the GUI.
+
+In the sidebar, there is a box called **Edge List File**, with text that says *Drag and Drop File Here*. Upload your file there.
+
+![](../../imgs/Input.png)
+
+After this, you should be ready to run your first clustering. 
+
+The next step is selecting a clustering algorithm.
+
 
 ## Clustering Algorithms
 
@@ -16,9 +38,10 @@ The GUI supports 4 different Algorithms:
 
 Leiden is an algorithm which is built upon the [Louvain clustering method](https://en.wikipedia.org/wiki/Louvain_method). 
 
+The Leiden algorithm employs an intermediate refinement phase in which communities may be split to guarantee that all communities are well-connected.
+
 In our GUI, we have 2 different versions of Leiden available. 
 
-The Leiden algorithm employs an intermediate refinement phase in which communities may be split to guarantee that all communities are well-connected.
 
 #### Leiden CPM (Constant-Potts Model)
 
@@ -36,35 +59,10 @@ algorithm == 'Leiden-CPM'
   Number of times the Leiden CPM algorithm is run.
 
 
-CPM is a way of grouping together nodes based on the following formula:
-
-$$
-\mathcal{H} = - \sum_{ij} \left( A_{ij} w_{ij} - \gamma \right) \delta(\sigma_i, \sigma_j)
-$$
-
-
-| **Symbol**                   | **Meaning**                                                                            |
-| ---------------------------- | -------------------------------------------------------------------------------------- |
-| $\mathcal{H}$                | Total energy (the value we want to **minimize**)                                       |
-| $\sum_{ij}$                  | Sum over **all pairs** of nodes $i$ and $j$                                            |
-| $A_{ij}$                     | Entry in the **adjacency matrix**: 1 if edge exists between $i$ and $j$, else 0        |
-| $w_{ij}$                     | **Weight** of the edge between nodes $i$ and $j$                                       |
-| $\gamma$                     | **Resolution parameter**: constant set by the User |
-| $\delta(\sigma_i, \sigma_j)$ | Equals 1 if nodes $i$ and $j$ are in the **same community**; otherwise 0               |
-
-In out GUI, there is no weight between the edges, we are looking only at the existence of edges between nodes. In this case, $w_{ij} = 1$ always.
-
-The "Constant" in CPM is a reference to the Resolution Parameter, which you can pass to the GUI as a parameter
-
-
 Varying the Resolution Parameter may result in clusterings of different sizes and connectivity score. Higher resolution values tend to produce fewer more densily connected clusters, with a lower node coverage. Lower resolution values tend to produce bigger clusters that are not as densily connected, with a higher node coverage.
 
 
-For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
-
-
-
-#### **2. Leiden-Mod**
+#### Leiden-Mod
 
 Used when:
 
@@ -78,52 +76,19 @@ algorithm == 'Leiden-Mod'
   Number of times the modularity-based Leiden algorithm is run.
 
 
-Modularity, as a concept, is a method that tries to maximise the difference between the actual number of edges in a community and the expected number of such edges. It is given by the following formula:
-
-$$
-\mathcal{H} = \frac{1}{2m} \sum_c \left( e_c - \gamma \frac{K_c^2}{2m} \right)
-$$
-
-
-| Symbol        | Meaning                                                                 |
-|---------------|-------------------------------------------------------------------------|
-| $\mathcal{H}$| Modularity score (objective function being maximized)                  |
-| $m$       | Total number of edges in the network                                     |
-| $c$       | A community (subset of nodes in the network)                            |
-| $e_c$     | Number of edges **within** community $c$                           |
-| $K_c$     | Sum of the degrees of all nodes in community $c$                   |
-| $\gamma$  | Resolution parameter (controls granularity of the communities detected) |
 
 This is closest to the Louvain Method for community detection. The modularity of the community is the relative density of edges inside communities with respect to edges outside communities.
 
-For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
 
 
-
-### **3. Infomap**
+### Infomap
 
 No need to pass parameters via GUI, only the input files.
 
-The Infomap Clustering method is based on the [Map Equation](https://www.mapequation.org/publications.html#Rosvall-Axelsson-Bergstrom-2009-Map-equation). This equation minimizes something called the Description Lenght of a random walk in the network:
-
-$$
-L(M) = q_{\curvearrowright} H(\mathcal{Q}) + \sum_{i=1}^{m} p_{\circlearrowright}^i H(\mathcal{P}^i)
-$$
+The Infomap Clustering method is based on the [Map Equation](https://www.mapequation.org/publications.html#Rosvall-Axelsson-Bergstrom-2009-Map-equation). This equation minimizes something called the Description Lenght of a random walk in the network
 
 
-| Symbol                         | Meaning                                                                 |
-|--------------------------------|-------------------------------------------------------------------------|
-| $L(M)$                     | Description length of the random walk using partition $M$          |
-| $q_{\curvearrowright}$     | Probability of exiting a module (community)                            |
-| $H(\mathcal{Q})$           | Entropy of the index codebook (used when jumping between modules)      |
-| $m$                        | Number of modules (communities) in the network                         |
-| $p_{\circlearrowright}^i$  | Probability of visiting module $i$ and staying within it           |
-| $H(\mathcal{P}^i)$         | Entropy of the codebook within module $i$                          |
-
-For a more in-depth explanation please visit [mapequation.org/infomap](https://www.mapequation.org/infomap/)
-
-
-### **4. Stochastic Block Model (SBM)**
+### Stochastic Block Model (SBM)
 
 Used when:
 
@@ -141,3 +106,27 @@ algorithm == 'Stochastic Block Model (SBM)'
 * `Degree corrected` – *bool*
   *(Only available if `"Non Nested"` is selected)*
   Whether to use the degree-corrected version of SBM.
+
+## Selecting an Algorithm
+
+The sidebar has a drop-down menu with the algorithm options, it should be set to "Leiden-CPM" as default.
+
+![](../../imgs/figure_2.png)
+
+Leave it with the deafult options, for now. Your sidebard should look like this:
+
+![](../../imgs/Default_GUI_Lesson_3.png)
+
+## Run the GUI
+
+Just press the `Run CM Pipeline` button below the **CM Interface** title.
+
+When the CM Pipeline is finished running, the GUI should update the page to look like this:
+
+![](../../imgs/GUI_successful_run_Lesson_3.png)
+
+Now, download the Clustering Data.
+
+It's a file with two columns and no headers. The first column has Node IDs, and the second has their corresponding cluster/community ID. 
+
+It's important to mention that not all nodes are allocated to a community. The proportion of nodes in communities to all nodes is called **Node Coverage**.
