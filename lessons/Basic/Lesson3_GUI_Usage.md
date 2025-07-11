@@ -57,7 +57,7 @@ In out GUI, there is no weight between the edges, we are looking only at the exi
 The "Constant" in CPM is a reference to the Resolution Parameter, which you can pass to the GUI as a parameter
 
 
-Varying the Resolution Parameter may result in clusterings of different sizes and connectivity score.
+Varying the Resolution Parameter may result in clusterings of different sizes and connectivity score. Higher resolution values tend to produce fewer more densily connected clusters, with a lower node coverage. Lower resolution values tend to produce bigger clusters that are not as densily connected, with a higher node coverage.
 
 
 For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
@@ -94,7 +94,7 @@ $$
 | $K_c$     | Sum of the degrees of all nodes in community $c$                   |
 | $\gamma$  | Resolution parameter (controls granularity of the communities detected) |
 
-This is closest to the Louvain Method for community detection. The modularity of the community is the relative density of edges inside communities with respect to edges outside communities
+This is closest to the Louvain Method for community detection. The modularity of the community is the relative density of edges inside communities with respect to edges outside communities.
 
 For a more in-depth explanation, please see [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
 
