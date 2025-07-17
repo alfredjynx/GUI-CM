@@ -14,7 +14,31 @@ We'll be using the [Stanford High-energy Physics Citation Network](https://snap.
 
 If we take a look at the `network.tsv` file present in `/lessons/example_data`, it is a tab separated edge list that has no header, meaning no column names. It consists of two columns of node ids corresponding to `Source` and  `Target`.
 
-The file just downloaded is different from the usual input. It has 4 commented out lines that explain the network and what the edge list is. For the GUI to work, the input edge list needs to be a tab separated edge list that has no header or comments. Please, delete the first 4 lines of the downloaded edge list, leaving only the node ids.
+The file just downloaded is different from the usual input. It has 4 commented out lines that explain the network and what the edge list is. It should look like this:
+
+```
+# Directed graph (each unordered pair of nodes is saved once): Cit-HepPh.txt 
+# Paper citation network of Arxiv High Energy Physics category
+# Nodes: 34546 Edges: 421578
+# FromNodeId	ToNodeId
+9907233	9301253
+9907233	9504304
+9907233	9505235
+```
+
+
+For the GUI to work, the input edge list needs to be a tab separated edge list that has no header or comments. Please, delete the first 4 lines of the downloaded edge list, leaving only the node ids.
+
+```
+9907233	9301253
+9907233	9504304
+9907233	9505235
+9907233	9506257
+9907233	9606402
+9907233	9607354
+9907233	9611297
+```
+
 
 ## Uploading a Network
 
