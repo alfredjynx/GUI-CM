@@ -4,7 +4,7 @@ In this lesson we explain how to use the CM-GUI.
 
 ## Launching the GUI
 
-[someone fill in text please?]
+Please see Lesson 2 or the repo `README.md` file for launch instructions.
 
 ## Uploading a Network
 
@@ -22,8 +22,8 @@ You should now be ready to run your first clustering and the next step is select
 
 The GUI supports 4 different clustering algorithms:
 
-- Leiden CPM [reference]
-- Leiden Modularity [reference]
+- Leiden CPM [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
+- Leiden Modularity [Traag et. Al](https://www.nature.com/articles/s41598-019-41695-z)
 - Infomap [reference]
 - Stochastic Block Model (SBM) [reference]
 
@@ -49,7 +49,7 @@ algorithm == 'Leiden-CPM'
 * `Iterations` (`i`) – *int*
   Number of times the Leiden CPM algorithm is run.
 
-Varying the Resolution Parameter typically results in clusters of different sizes and connectivity. Higher resolution values tend to produce smaller and more densely connected clusters. Lower resolution values tend to produce larger clusters that are not as densily connected, with a higher node coverage. [reference]
+Varying the Resolution Parameter typically results in clusters of different sizes and connectivity. Higher resolution values tend to produce smaller and more densely connected clusters. Lower resolution values tend to produce larger clusters that are not as densily connected, with a higher node coverage. ([Park. et Al](https://doi.org/10.1007/978-3-031-53499-7_1))
 
 
 #### Leiden-Mod
@@ -111,7 +111,7 @@ When the CM Pipeline is finished running, the GUI should update the page to look
 
 ![](../../imgs/GUI_successful_run_Lesson_3.png)
 
-Now, download the Clustering Data. [what is this file named?]
+Now, download the Clustering Data file names `leiden.tsv`.
 
 It's a file with two columns and no headers. The first column consist of node_ids, and the second is the corresponding cluster/community ID for a node.
 
