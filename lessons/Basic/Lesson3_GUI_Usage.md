@@ -70,7 +70,7 @@ Leiden-Mod  is closest to the Louvain Method for community detection. The modula
 
 ### Infomap
 
-The Infomap Clustering method is based on the [Map Equation](https://www.mapequation.org/publications.html#Rosvall-Axelsson-Bergstrom-2009-Map-equation). This equation minimizes something called the Description Lenght of a random walk in the network.
+The Infomap Clustering method is based on the [Map Equation](https://www.mapequation.org/publications.html#Rosvall-Axelsson-Bergstrom-2009-Map-equation). This equation minimizes something called the Description Lenght of a random walk in the network. [Needs rewrite].
 
 No parameters are passed via GUI, only the input files.
 
